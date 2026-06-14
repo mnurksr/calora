@@ -1,7 +1,8 @@
 import type { HeadersFunction, LoaderFunctionArgs } from "react-router";
 import { Link, Outlet, useLoaderData, useRouteError } from "react-router";
 import { boundary } from "@shopify/shopify-app-react-router/server";
-import { AppProvider } from "@shopify/shopify-app-react-router/react";
+import { AppProvider as ShopifyAppProvider } from "@shopify/shopify-app-react-router/react";
+import { AppProvider as PolarisAppProvider } from "@shopify/polaris";
 import { NavMenu } from "@shopify/app-bridge-react";
 import polarisStyles from "@shopify/polaris/build/esm/styles.css?url";
 import polarisTranslations from "@shopify/polaris/locales/en.json";
@@ -26,16 +27,18 @@ export default function App() {
   const { apiKey, isSetupComplete } = useLoaderData<typeof loader>();
 
   return (
-    <AppProvider isEmbeddedApp apiKey={apiKey} i18n={polarisTranslations}>
-      <NavMenu>
-        <Link to="/app" rel="home">
-          Dashboard
-        </Link>
-        <Link to="/app/calls">Call History</Link>
-        <Link to="/app/settings">Settings</Link>
-      </NavMenu>
-      <Outlet />
-    </AppProvider>
+    <PolarisAppProvider i18n={polarisTranslations}>
+      <ShopifyAppProvider embedded apiKey={apiKey}>
+        <NavMenu>
+          <Link to="/app" rel="home">
+            Dashboard
+          </Link>
+          <Link to="/app/calls">Call History</Link>
+          <Link to="/app/settings">Settings</Link>
+        </NavMenu>
+        <Outlet />
+      </ShopifyAppProvider>
+    </PolarisAppProvider>
   );
 }
 
