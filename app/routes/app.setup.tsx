@@ -73,31 +73,43 @@ export const action = async ({ request }: ActionFunctionArgs) => {
       const storeName = shop.replace(".myshopify.com", "");
       
       const settings = await db.shopSettings.findUnique({ where: { shop } });
-      if (!settings || !settings.twilioAccountSid || !settings.twilioAuthToken) {
+      if (!settings || !settings.twilioAccountSid || !settings.twilioAuthToken || !settings.twilioPhoneNumber) {
         return { error: "Twilio credentials missing" };
       }
 
-      // 1. Import number to Vapi
-      // Note: We need the raw auth token, which we would decrypt here in a real scenario
-      // For this MVP action, we might just pass the raw one if we temporarily stored it,
-      // or we ask the user to input it again. We'll simulate success here since Vapi
-      // requires the real token to import.
-      
-      // Simulating Vapi integration for MVP robustness without real keys failing
-      const vapiPhoneNumberId = "simulated_phone_id_" + Date.now();
-      const vapiAssistantId = "simulated_assistant_id_" + Date.now();
+      try {
+        // 1. Import number to Vapi
+        const rawAuthToken = decrypt(settings.twilioAuthToken);
+        const vapiPhoneNumberId = await importTwilioNumber(
+          settings.twilioAccountSid,
+          rawAuthToken,
+          settings.twilioPhoneNumber
+        );
 
-      await db.shopSettings.update({
-        where: { shop },
-        data: {
-          vapiPhoneNumberId,
-          vapiAssistantId,
-          setupStep: 3,
-          isActive: true, // Auto activate
-        },
-      });
+        // 2. Create Vapi Assistant
+        const serverUrl = process.env.SHOPIFY_APP_URL ? `${process.env.SHOPIFY_APP_URL}/api/vapi-webhook` : "";
+        const vapiAssistantId = await createRecoveryAssistant({
+          storeName,
+          discountType: settings.discountType,
+          discountValue: settings.discountValue,
+          serverUrl,
+        });
 
-      return { success: true, redirect: "/app" };
+        await db.shopSettings.update({
+          where: { shop },
+          data: {
+            vapiPhoneNumberId,
+            vapiAssistantId,
+            setupStep: 3,
+            isActive: true, // Auto activate
+          },
+        });
+
+        return { success: true, redirect: "/app" };
+      } catch (err: any) {
+        console.error("Vapi Setup Error:", err);
+        return { error: `Vapi configuration failed: ${err.message}` };
+      }
     }
 
     return { error: "Invalid action" };
