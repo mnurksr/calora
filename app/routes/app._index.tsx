@@ -164,7 +164,8 @@ export default function Index() {
                     <Text as="p" tone="subdued">No calls made yet.</Text>
                   </BlockStack>
                 )}
-              </Card>
+              </BlockStack>
+            </Card>
           </Layout.Section>
         </Layout>
       </BlockStack>
