@@ -1,0 +1,129 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:../data/dev.sqlite"
+}
+
+model Session {
+  id                  String    @id
+  shop                String
+  state               String
+  isOnline            Boolean   @default(false)
+  scope               String?
+  expires             DateTime?
+  accessToken         String
+  userId              BigInt?
+  firstName           String?
+  lastName            String?
+  email               String?
+  accountOwner        Boolean   @default(false)
+  locale              String?
+  collaborator        Boolean?  @default(false)
+  emailVerified       Boolean?  @default(false)
+  refreshToken        String?
+  refreshTokenExpires DateTime?
+}
+
+/// Per-shop settings including Twilio credentials and call configuration
+model ShopSettings {
+  id                String   @id @default(cuid())
+  shop              String   @unique
+
+  // Twilio credentials (authToken is encrypted)
+  twilioAccountSid  String?
+  twilioAuthToken   String?  // AES-256 encrypted
+  twilioPhoneNumber String?
+
+  // Vapi resource IDs (created during setup)
+  vapiPhoneNumberId String?
+  vapiAssistantId   String?
+
+  // Recovery settings
+  callDelayMinutes  Int      @default(60)
+  minCartValue      Float    @default(0)
+  discountType      String   @default("percentage") // "percentage" | "fixed_amount"
+  discountValue     Float    @default(10)
+
+  // Status
+  isActive          Boolean  @default(false)
+  setupStep         Int      @default(0) // 0=not started, 1=twilio, 2=settings, 3=complete
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+/// Tracks abandoned checkouts from Shopify
+model AbandonedCheckout {
+  id                   String    @id @default(cuid())
+  shop                 String
+  shopifyCheckoutId    String
+  shopifyCheckoutToken String?
+
+  // Customer info
+  customerPhone        String?
+  customerEmail        String?
+  customerFirstName    String?
+  customerLastName     String?
+
+  // Cart details
+  cartTotal            Float
+  cartCurrency         String    @default("USD")
+  cartItems            String    // JSON: [{title, quantity, price, imageUrl}]
+  checkoutUrl          String?
+
+  // Status tracking
+  // pending -> scheduled -> calling -> called -> recovered -> expired | failed | no_phone
+  status               String    @default("pending")
+
+  abandonedAt          DateTime
+  recoveredAt          DateTime?
+  orderId              String?   // Shopify order ID if recovered
+
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+
+  @@unique([shop, shopifyCheckoutId])
+  @@index([shop, status])
+  @@index([status, abandonedAt])
+}
+
+/// Tracks every AI voice call made to recover an abandoned checkout
+model CallLog {
+  id                   String    @id @default(cuid())
+  shop                 String
+  abandonedCheckoutId  String
+  vapiCallId           String?   @unique
+
+  // Call details
+  customerPhone        String
+  customerName         String?
+  // initiated -> ringing -> in-progress -> completed | failed | no-answer | busy | voicemail
+  status               String    @default("initiated")
+
+  duration             Int?      // seconds
+  transcript           String?   // Full transcript JSON
+  recordingUrl         String?
+
+  // Outcome
+  // interested | not_interested | callback_requested | wrong_number | objection | voicemail
+  callOutcome          String?
+  abandonReason        String?   // Customer's stated reason
+
+  // Discount offered
+  discountCode         String?
+  discountType         String?
+  discountValue        Float?
+
+  // Revenue tracking
+  recoveredOrderId     String?
+  recoveredAmount      Float?
+
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+
+  @@index([shop])
+  @@index([shop, createdAt])
+}

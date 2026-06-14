@@ -1,0 +1,3 @@
+[commands]
+dev = "npx vite dev"
+build = "npx react-router build"
