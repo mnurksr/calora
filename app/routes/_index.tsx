@@ -60,6 +60,7 @@ export default function LandingPage() {
   const [testError, setTestError] = useState("");
   const [transcripts, setTranscripts] = useState<{id: number, role: string, text: string}[]>([]);
   const [demoUsed, setDemoUsed] = useState(false);
+  const [userName, setUserName] = useState("");
   
   const vapiRef = useRef<any>(null);
   const timerRef = useRef<any>(null);
@@ -176,7 +177,12 @@ export default function LandingPage() {
       if (!assistantId) {
         throw new Error("Missing VITE_VAPI_ASSISTANT_ID in .env");
       }
-      await vapiRef.current?.start(assistantId);
+      
+      const overrides = userName.trim() ? {
+        variableValues: { name: userName.trim() }
+      } : {};
+
+      await vapiRef.current?.start(assistantId, overrides);
     } catch (err: any) {
       console.error(err);
       setDemoState("idle");
@@ -244,18 +250,33 @@ export default function LandingPage() {
                        <AvatarIcon />
                      </div>
                      <h3 className="np-idle-title">{demoUsed ? "Demo Complete" : "Calora AI"}</h3>
-                     <p className="np-idle-sub">
+                     <p className="np-idle-sub" style={{ marginBottom: demoUsed ? '3rem' : '2rem' }}>
                        {demoUsed 
                          ? "You've reached the demo limit for this browser. Join the waitlist above to get full access." 
-                         : "Tap to experience a live AI voice call directly in your browser."}
+                         : "Enter your name below to experience a personalized AI voice call."}
                      </p>
                      
                      {!demoUsed && (
-                       <div className="np-trigger-wrapper">
-                         <div className="np-pulse-ring"></div>
-                         <button className="np-trigger-btn" onClick={triggerIncomingCall}>
-                           Receive Demo Call
-                         </button>
+                       <div className="np-name-form">
+                         <input 
+                           type="text" 
+                           placeholder="Your first name" 
+                           className="np-name-input"
+                           value={userName}
+                           onChange={(e) => setUserName(e.target.value)}
+                           maxLength={30}
+                         />
+                         <div className="np-trigger-wrapper" style={{ marginTop: "1.25rem" }}>
+                           <div className="np-pulse-ring" style={{ display: userName.trim() ? "block" : "none" }}></div>
+                           <button 
+                             className="np-trigger-btn" 
+                             onClick={triggerIncomingCall}
+                             disabled={!userName.trim()}
+                             style={{ opacity: userName.trim() ? 1 : 0.5 }}
+                           >
+                             Receive Demo Call
+                           </button>
+                         </div>
                        </div>
                      )}
                      {testError && <p className="np-error" style={{marginTop: demoUsed ? '2rem' : '1rem'}}>{testError}</p>}
@@ -493,6 +514,10 @@ body{background:#0c0e14;color:#e4e4e7;font-family:'Inter',-apple-system,sans-ser
 .np-logo-circle{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#a78bfa);display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem;box-shadow:0 10px 30px rgba(99,102,241,0.3)}
 .np-idle-title{font-size:1.5rem;color:#fff;margin-bottom:0.5rem;font-weight:600;letter-spacing:-0.5px}
 .np-idle-sub{font-size:0.95rem;color:#a1a1aa;margin-bottom:3rem;line-height:1.5}
+.np-name-input{width:100%;max-width:240px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:0.8rem 1rem;color:#fff;font-size:0.95rem;font-family:inherit;outline:none;text-align:center;transition:all 0.2s}
+.np-name-input::placeholder{color:#52525b}
+.np-name-input:focus{border-color:#818cf8;box-shadow:0 0 0 2px rgba(129,140,248,0.2)}
+.np-name-form{display:flex;flex-direction:column;align-items:center;width:100%}
 .np-trigger-wrapper{position:relative;display:inline-block}
 .np-pulse-ring{position:absolute;inset:-4px;border-radius:980px;border:2px solid #8b5cf6;animation:buttonPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite}
 @keyframes buttonPulse{0%{transform:scale(1);opacity:0.8}100%{transform:scale(1.15);opacity:0}}
