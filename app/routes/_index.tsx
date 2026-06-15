@@ -28,6 +28,26 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   }
 };
 
+const AvatarIcon = () => (
+  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+    <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+    <line x1="12" y1="22.08" x2="12" y2="12" />
+  </svg>
+);
+
+const IosStatusBar = () => (
+  <div className="ios-status-bar">
+    <div className="ios-time">9:41</div>
+    <div className="ios-dynamic-island" />
+    <div className="ios-icons">
+      <svg width="17" height="12" viewBox="0 0 17 12" fill="none"><path d="M1 11h2.5V8H1v3zm4 0h2.5V6H5v5zm4 0h2.5V4H9v7zm4 0h2.5V1H13v10z" fill="white"/></svg>
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><path d="M8 2.5a8.5 8.5 0 0 0-6 2.5l1.5 1.5a6.5 6.5 0 0 1 9 0l1.5-1.5a8.5 8.5 0 0 0-6-2.5z" fill="white"/><path d="M8 5.5a4.5 4.5 0 0 0-3 1.5l1.5 1.5a2.5 2.5 0 0 1 3 0l1.5-1.5a4.5 4.5 0 0 0-3-1.5z" fill="white"/><circle cx="8" cy="9.5" r="1.5" fill="white"/></svg>
+      <svg width="24" height="12" viewBox="0 0 24 12" fill="none"><rect x="1" y="2" width="18" height="8" rx="2" stroke="white" strokeWidth="1"/><rect x="2" y="3" width="12" height="6" rx="1" fill="white"/><path d="M20 4v4h1V4h-1z" fill="white"/></svg>
+    </div>
+  </div>
+);
+
 export default function LandingPage() {
   const actionData = useActionData<typeof action>();
   const navigation = useNavigation();
@@ -170,21 +190,17 @@ export default function LandingPage() {
           <div className="hero-interactive">
             {/* The Native Phone Demo UI */}
             <div className="native-phone-frame">
-               {/* Top Status Bar */}
-               <div className="np-top">
-                 <span>9:41</span>
-                 <div className="np-icons">📶 🔋</div>
-               </div>
+               <IosStatusBar />
 
                {/* State 1: Idle Screen */}
                {demoState === "idle" && (
                  <div className="np-screen np-idle">
                    <div className="np-idle-content">
                      <div className="np-logo-circle">
-                       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="url(#grad)" strokeWidth="2"><defs><linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stopColor="#818cf8"/><stop offset="100%" stopColor="#c084fc"/></linearGradient></defs><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+                       <AvatarIcon />
                      </div>
-                     <h3 className="np-idle-title">Experience Calora</h3>
-                     <p className="np-idle-sub">Receive a simulated AI call right now in your browser.</p>
+                     <h3 className="np-idle-title">Calora AI</h3>
+                     <p className="np-idle-sub">Tap to experience a live AI voice call directly in your browser.</p>
                      
                      <div className="np-trigger-wrapper">
                        <div className="np-pulse-ring"></div>
@@ -199,16 +215,17 @@ export default function LandingPage() {
 
                {/* State 2: Incoming Call */}
                {demoState === "incoming" && (
-                 <div className="np-screen np-incoming">
-                   <h2 className="np-incoming-title">Incoming Call...</h2>
-                   <div className="np-avatar np-avatar-ringing">🤖</div>
+                 <div className="np-screen np-incoming" style={{ backgroundImage: 'radial-gradient(circle at 50% 30%, #312e81, #000 70%)' }}>
+                   <div className="np-avatar np-avatar-ringing">
+                     <AvatarIcon />
+                   </div>
                    <h3 className="np-name">Calora AI Agent</h3>
-                   <p className="np-number">Web Demo</p>
+                   <p className="np-number">Web Audio...</p>
 
                    <div className="np-incoming-actions">
                      <div className="np-action-col">
                        <button className="np-action-btn decline-btn" onClick={() => setDemoState("idle")}>
-                         <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M12 9c-1.6 0-3.15.25-4.6.72v3.1c0 .39-.23.74-.56.9-.98.49-1.87 1.12-2.66 1.85-.18.18-.43.28-.7.28-.28 0-.53-.11-.71-.29L.29 13.08a.956.956 0 010-1.36C3.36 8.84 7.44 7 12 7s8.64 1.84 11.71 4.72c.18.18.29.44.29.71 0 .28-.11.53-.29.71l-2.48 2.48c-.18.18-.43.29-.71.29-.27 0-.52-.1-.7-.28-.79-.73-1.68-1.36-2.66-1.85a.996.996 0 01-.56-.9v-3.1C15.15 9.25 13.6 9 12 9z"/></svg>
+                         <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M12 9c-1.6 0-3.15.25-4.6.72v3.1c0 .39-.23.74-.56.9-.98.49-1.87 1.12-2.66 1.85-.18.18-.43.28-.7.28-.28 0-.53-.11-.71-.29L.29 13.08a.956.956 0 010-1.36C3.36 8.84 7.44 7 12 7s8.64 1.84 11.71 4.72c.18.18.29.44.29.71 0 .28-.11.53-.29.71l-2.48 2.48c-.18.18-.43.29-.71.29-.27 0-.52-.1-.7-.28-.79-.73-1.68-1.36-2.66-1.85a.996.996 0 01-.56-.9v-3.1C15.15 9.25 13.6 9 12 9z" transform="rotate(135 12 12)"/></svg>
                        </button>
                        <span>Decline</span>
                      </div>
@@ -225,9 +242,11 @@ export default function LandingPage() {
                {/* State 3: Active Call */}
                {(demoState === "connecting" || demoState === "active") && (
                  <div className="np-screen np-active">
-                   <div className="np-call-info" style={{ marginTop: "2rem" }}>
-                     <div className="np-avatar" style={{ width: "64px", height: "64px", fontSize: "2rem", animation: "pulseAvatar 2s infinite" }}>🤖</div>
-                     <h3 className="np-name" style={{ fontSize: "1.25rem" }}>Calora AI Agent</h3>
+                   <div className="np-call-info" style={{ marginTop: "4.5rem" }}>
+                     <div className="np-avatar" style={{ width: "72px", height: "72px", animation: demoState === "connecting" ? "pulseAvatar 2s infinite" : "none" }}>
+                       <AvatarIcon />
+                     </div>
+                     <h3 className="np-name" style={{ fontSize: "1.5rem" }}>Calora AI Agent</h3>
                      <p className="np-status">{demoState === "connecting" ? "Connecting..." : fmt(callTime)}</p>
                    </div>
 
@@ -245,29 +264,29 @@ export default function LandingPage() {
                    </div>
 
                    {/* Controls */}
-                   <div className="np-controls" style={{ paddingBottom: "2rem" }}>
+                   <div className="np-controls" style={{ paddingBottom: "3rem" }}>
                      {demoState === "active" ? (
-                        <div className="waveform" style={{ height: "50px", marginBottom: "1.5rem" }}>
-                          {Array.from({length: 20}).map((_, i) => {
-                            const isCenter = i > 6 && i < 14;
+                        <div className="waveform" style={{ height: "40px", marginBottom: "2rem" }}>
+                          {Array.from({length: 24}).map((_, i) => {
+                            const isCenter = i > 8 && i < 16;
                             const volMultiplier = isCenter ? 1.5 : 0.5;
                             const dynamicHeight = 12 + (volumeLevel * 100 * volMultiplier * Math.random());
                             return (
                               <div key={i} className="wave-bar" style={{
                                 animationDelay: `${i * 0.08}s`,
-                                height: `${Math.min(dynamicHeight, 40)}px`,
+                                height: `${Math.min(dynamicHeight, 36)}px`,
                                 transition: "height 0.1s ease-out"
                               }} />
                             );
                           })}
                         </div>
                      ) : (
-                        <div style={{ height: "50px", marginBottom: "1.5rem" }}></div>
+                        <div style={{ height: "40px", marginBottom: "2rem" }}></div>
                      )}
 
                      <div className="np-end-btn-wrapper">
                        <button className="np-end-btn" onClick={endCall}>
-                         <svg width="32" height="32" viewBox="0 0 24 24" fill="white"><path d="M12 9c-1.6 0-3.15.25-4.6.72v3.1c0 .39-.23.74-.56.9-.98.49-1.87 1.12-2.66 1.85-.18.18-.43.28-.7.28-.28 0-.53-.11-.71-.29L.29 13.08a.956.956 0 010-1.36C3.36 8.84 7.44 7 12 7s8.64 1.84 11.71 4.72c.18.18.29.44.29.71 0 .28-.11.53-.29.71l-2.48 2.48c-.18.18-.43.29-.71.29-.27 0-.52-.1-.7-.28-.79-.73-1.68-1.36-2.66-1.85a.996.996 0 01-.56-.9v-3.1C15.15 9.25 13.6 9 12 9z"/></svg>
+                         <svg width="32" height="32" viewBox="0 0 24 24" fill="white"><path d="M12 9c-1.6 0-3.15.25-4.6.72v3.1c0 .39-.23.74-.56.9-.98.49-1.87 1.12-2.66 1.85-.18.18-.43.28-.7.28-.28 0-.53-.11-.71-.29L.29 13.08a.956.956 0 010-1.36C3.36 8.84 7.44 7 12 7s8.64 1.84 11.71 4.72c.18.18.29.44.29.71 0 .28-.11.53-.29.71l-2.48 2.48c-.18.18-.43.29-.71.29-.27 0-.52-.1-.7-.28-.79-.73-1.68-1.36-2.66-1.85a.996.996 0 01-.56-.9v-3.1C15.15 9.25 13.6 9 12 9z" transform="rotate(135 12 12)"/></svg>
                        </button>
                      </div>
                    </div>
@@ -297,9 +316,9 @@ export default function LandingPage() {
           <h2 className="section-heading">Three steps. Zero effort.</h2>
           <div className="steps">
             {[
-              { n: "01", icon: "📦", title: "Cart Abandoned", desc: "Shopify detects an abandoned checkout and sends it to Calora in real-time." },
-              { n: "02", icon: "📞", title: "AI Calls Customer", desc: "After a smart delay, Calora's AI agent places a natural-sounding phone call." },
-              { n: "03", icon: "💰", title: "Sale Recovered", desc: "The customer gets a discount, completes checkout, and you recover lost revenue." },
+              { n: "01", icon: <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#818cf8" strokeWidth="2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>, title: "Cart Abandoned", desc: "Shopify detects an abandoned checkout and sends it to Calora in real-time." },
+              { n: "02", icon: <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#818cf8" strokeWidth="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>, title: "AI Calls Customer", desc: "After a smart delay, Calora's AI agent places a natural-sounding phone call." },
+              { n: "03", icon: <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#818cf8" strokeWidth="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>, title: "Sale Recovered", desc: "The customer gets a discount, completes checkout, and you recover lost revenue." },
             ].map((s, i) => (
               <div key={i} className="step">
                 <div className="step-n">{s.n}</div>
@@ -370,58 +389,60 @@ body{background:#0c0e14;color:#e4e4e7;font-family:'Inter',-apple-system,sans-ser
 .error-msg{color:#f87171;font-size:.8rem;margin-top:.5rem}
 .hint{margin-top:.75rem;color:#3f3f46;font-size:.8rem;text-align:left;padding-left:1rem}
 
-/* The Native Phone Frame (Hero Interactive) */
-.native-phone-frame{width:100%;max-width:360px;height:720px;margin:0 auto;background:#1a1c23;border:8px solid #0c0e14;border-radius:3rem;overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 25px 80px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.1);font-family:-apple-system,BlinkMacSystemFont,sans-serif}
-.np-top{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;padding:0.85rem 1.5rem;font-size:0.8rem;font-weight:600;color:#fff;z-index:20}
-.np-icons{letter-spacing:4px}
-.np-screen{position:absolute;inset:0;display:flex;flex-direction:column;transition:opacity 0.3s}
+/* The Native Phone Frame (iOS Style) */
+.native-phone-frame{width:100%;max-width:340px;height:680px;margin:0 auto;background:#000;border:6px solid #1f2024;border-radius:44px;overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 30px 80px rgba(0,0,0,0.6), inset 0 0 0 2px #3f3f46, 0 0 0 1px #000;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",sans-serif}
+.ios-status-bar{position:absolute;top:0;left:0;right:0;height:44px;display:flex;justify-content:space-between;align-items:center;padding:0 24px;z-index:50}
+.ios-time{color:white;font-size:14px;font-weight:600}
+.ios-dynamic-island{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:110px;height:30px;background:#000;border-radius:20px;z-index:60;box-shadow:0 0 0 1px rgba(255,255,255,0.1)}
+.ios-icons{display:flex;gap:6px;align-items:center}
+.np-screen{position:absolute;inset:0;display:flex;flex-direction:column;transition:opacity 0.3s;padding-top:44px}
 
 /* State 1: Idle */
-.np-idle{background:linear-gradient(180deg,#14161e 0%,#0c0e14 100%);justify-content:center;align-items:center;text-align:center;padding:2rem}
-.np-logo-circle{width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,0.03);display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem;box-shadow:inset 0 0 20px rgba(255,255,255,0.02)}
-.np-idle-title{font-size:1.5rem;color:#fff;margin-bottom:0.5rem;font-weight:700}
-.np-idle-sub{font-size:0.9rem;color:#a1a1aa;margin-bottom:3rem;line-height:1.5}
+.np-idle{background:linear-gradient(180deg,#14161e 0%,#0c0e14 100%);justify-content:center;align-items:center;text-align:center;padding-top:0}
+.np-idle-content{display:flex;flex-direction:column;align-items:center;padding:2rem}
+.np-logo-circle{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#a78bfa);display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem;box-shadow:0 10px 30px rgba(99,102,241,0.3)}
+.np-idle-title{font-size:1.5rem;color:#fff;margin-bottom:0.5rem;font-weight:600;letter-spacing:-0.5px}
+.np-idle-sub{font-size:0.95rem;color:#a1a1aa;margin-bottom:3rem;line-height:1.5}
 .np-trigger-wrapper{position:relative;display:inline-block}
 .np-pulse-ring{position:absolute;inset:-4px;border-radius:980px;border:2px solid #8b5cf6;animation:buttonPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite}
 @keyframes buttonPulse{0%{transform:scale(1);opacity:0.8}100%{transform:scale(1.15);opacity:0}}
-.np-trigger-btn{position:relative;z-index:2;background:#fff;color:#000;border:none;padding:1rem 2rem;border-radius:980px;font-weight:700;font-size:1rem;cursor:pointer;box-shadow:0 10px 25px rgba(255,255,255,0.2);transition:transform 0.2s}
+.np-trigger-btn{position:relative;z-index:2;background:#fff;color:#000;border:none;padding:1rem 2rem;border-radius:980px;font-weight:600;font-size:1rem;cursor:pointer;box-shadow:0 10px 25px rgba(255,255,255,0.2);transition:transform 0.2s}
 .np-trigger-btn:hover{transform:scale(1.05)}
 .np-error{color:#ef4444;font-size:0.8rem;margin-top:1rem;background:rgba(239,68,68,0.1);padding:0.5rem;border-radius:0.5rem}
 
 /* State 2: Incoming */
-.np-incoming{background:linear-gradient(180deg,#1e1b4b 0%,#000 100%);align-items:center;padding-top:4rem}
-.np-incoming-title{font-size:1rem;color:#a5b4fc;font-weight:500;margin-bottom:2rem;letter-spacing:1px}
-.np-avatar{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#a78bfa);display:flex;align-items:center;justify-content:center;font-size:2.5rem;margin-bottom:1rem;box-shadow:0 0 30px rgba(99,102,241,0.4)}
-.np-avatar-ringing{animation:ringShake 0.5s infinite}
-@keyframes ringShake{0%{transform:rotate(0)}25%{transform:rotate(-10deg)}50%{transform:rotate(0)}75%{transform:rotate(10deg)}100%{transform:rotate(0)}}
-.np-name{font-size:2rem;font-weight:300;color:#fff;margin-bottom:0.25rem}
+.np-incoming{align-items:center;padding-top:5rem}
+.np-avatar{width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#a78bfa);display:flex;align-items:center;justify-content:center;margin-bottom:1rem;box-shadow:0 0 30px rgba(99,102,241,0.4)}
+.np-avatar-ringing{animation:ringPulse 2s infinite}
+@keyframes ringPulse{0%{box-shadow:0 0 0 0 rgba(99,102,241,0.6)}70%{box-shadow:0 0 0 25px rgba(99,102,241,0)}100%{box-shadow:0 0 0 0 rgba(99,102,241,0)}}
+.np-name{font-size:2rem;font-weight:400;color:#fff;margin-bottom:0.25rem;letter-spacing:-0.5px}
 .np-number{font-size:1rem;color:#a1a1aa}
-.np-incoming-actions{position:absolute;bottom:4rem;left:0;right:0;display:flex;justify-content:space-around;padding:0 2rem}
+.np-incoming-actions{position:absolute;bottom:4rem;left:0;right:0;display:flex;justify-content:space-around;padding:0 2.5rem}
 .np-action-col{display:flex;flex-direction:column;align-items:center;gap:0.75rem}
-.np-action-col span{color:#fff;font-size:0.85rem}
-.np-action-btn{width:72px;height:72px;border-radius:50%;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform 0.2s}
+.np-action-col span{color:#fff;font-size:0.9rem;font-weight:500}
+.np-action-btn{width:76px;height:76px;border-radius:50%;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform 0.2s}
 .np-action-btn:hover{transform:scale(1.05)}
 .decline-btn{background:#ef4444}
 .accept-btn{background:#22c55e;animation:pulseAccept 1.5s infinite}
 @keyframes pulseAccept{0%{box-shadow:0 0 0 0 rgba(34,197,94,0.5)}70%{box-shadow:0 0 0 20px rgba(34,197,94,0)}100%{box-shadow:0 0 0 0 rgba(34,197,94,0)}}
 
 /* State 3: Active Call */
-.np-active{background:linear-gradient(180deg,#1a1c23 0%,#000 100%);display:flex;flex-direction:column}
-.np-call-info{display:flex;flex-direction:column;align-items:center;padding-top:4rem}
+.np-active{background:linear-gradient(180deg,#1a1c23 0%,#000 100%);display:flex;flex-direction:column;padding-top:3rem}
+.np-call-info{display:flex;flex-direction:column;align-items:center}
 @keyframes pulseAvatar{0%{box-shadow:0 0 0 0 rgba(99,102,241,0.4)}70%{box-shadow:0 0 0 20px rgba(99,102,241,0)}100%{box-shadow:0 0 0 0 rgba(99,102,241,0)}}
-.np-status{font-size:0.9rem;color:#a1a1aa;margin-top:0.25rem}
+.np-status{font-size:1rem;color:#a1a1aa;margin-top:0.5rem}
 
-.np-captions{flex:1;display:flex;flex-direction:column;padding:1rem 1.5rem;gap:0.75rem;overflow-y:auto;scroll-behavior:smooth}
+.np-captions{flex:1;display:flex;flex-direction:column;padding:1.5rem;gap:0.75rem;overflow-y:auto;scroll-behavior:smooth}
 .np-captions::-webkit-scrollbar{display:none}
-.np-caption-hint{text-align:center;color:#52525b;font-size:0.85rem;margin-top:auto;padding-bottom:2rem}
-.np-caption-line{padding:0.75rem 1rem;border-radius:1rem;font-size:0.9rem;line-height:1.4;animation:slideUpFade 0.3s ease forwards}
+.np-caption-hint{text-align:center;color:#52525b;font-size:0.85rem;margin-top:auto;padding-bottom:1rem}
+.np-caption-line{padding:0.85rem 1.15rem;border-radius:1.2rem;font-size:0.95rem;line-height:1.4;animation:slideUpFade 0.3s ease forwards}
 @keyframes slideUpFade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-.ai-line{background:rgba(99,102,241,0.15);color:#e0e7ff;border:1px solid rgba(99,102,241,0.2);align-self:flex-start;border-bottom-left-radius:0.25rem;max-width:90%}
-.user-line{background:rgba(255,255,255,0.1);color:#fff;align-self:flex-end;border-bottom-right-radius:0.25rem;max-width:90%}
+.ai-line{background:rgba(99,102,241,0.15);color:#e0e7ff;border:1px solid rgba(99,102,241,0.2);align-self:flex-start;border-bottom-left-radius:0.3rem;max-width:90%}
+.user-line{background:rgba(255,255,255,0.15);color:#fff;align-self:flex-end;border-bottom-right-radius:0.3rem;max-width:90%}
 
 .np-controls{background:linear-gradient(to top, rgba(0,0,0,1) 50%, transparent);padding:0 1.5rem}
 .np-end-btn-wrapper{display:flex;justify-content:center}
-.np-end-btn{width:72px;height:72px;border-radius:50%;background:#ef4444;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 10px 25px rgba(239,68,68,0.4);transition:transform 0.2s}
+.np-end-btn{width:76px;height:76px;border-radius:50%;background:#ef4444;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 10px 25px rgba(239,68,68,0.4);transition:transform 0.2s}
 .np-end-btn:hover{transform:scale(1.05)}
 
 .waveform{display:flex;align-items:center;justify-content:center;gap:3px}
@@ -441,7 +462,7 @@ body{background:#0c0e14;color:#e4e4e7;font-family:'Inter',-apple-system,sans-ser
 .step{padding:2.25rem 1.75rem;background:#0c0e14;transition:background .3s}
 .step:hover{background:rgba(99,102,241,0.03)}
 .step-n{font-size:.75rem;font-weight:700;color:#818cf8;letter-spacing:1px;margin-bottom:1rem}
-.step-icon{font-size:2rem;margin-bottom:.75rem;display:block}
+.step-icon{margin-bottom:.75rem;display:flex;align-items:center}
 .step-title{font-size:1.1rem;font-weight:700;color:#f4f4f5;margin-bottom:.5rem;letter-spacing:-.3px}
 .step-desc{font-size:.87rem;color:#52525b;line-height:1.6}
 
