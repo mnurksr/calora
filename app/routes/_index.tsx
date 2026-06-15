@@ -59,6 +59,7 @@ export default function LandingPage() {
   const [callTime, setCallTime] = useState(0);
   const [testError, setTestError] = useState("");
   const [transcripts, setTranscripts] = useState<{id: number, role: string, text: string}[]>([]);
+  const [demoUsed, setDemoUsed] = useState(false);
   
   const vapiRef = useRef<any>(null);
   const timerRef = useRef<any>(null);
@@ -71,6 +72,49 @@ export default function LandingPage() {
       transcriptsEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [transcripts]);
+
+  // Handle local storage demo usage
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const used = localStorage.getItem("calora_demo_used");
+      if (used === "true") {
+        setDemoUsed(true);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (demoState === "active" && !demoUsed) {
+      localStorage.setItem("calora_demo_used", "true");
+      setDemoUsed(true);
+    }
+  }, [demoState, demoUsed]);
+
+  // Polite hangup at 2 mins
+  useEffect(() => {
+    if (demoState === "active") {
+      if (callTime === 105) {
+        try {
+          vapiRef.current?.send({
+            type: "add-message",
+            message: {
+              role: "system",
+              content: "The demo time is strictly up in 15 seconds. Please politely thank the user for testing Calora, say goodbye, and let them know the call is ending."
+            }
+          });
+        } catch (e) {
+          console.error(e);
+        }
+      }
+      if (callTime >= 120) {
+        vapiRef.current?.stop();
+        setDemoState("idle");
+        clearInterval(timerRef.current);
+        setTranscripts([]);
+        setTestError("Demo time limit reached. Join the waitlist for full access!");
+      }
+    }
+  }, [callTime, demoState]);
 
   useEffect(() => {
     const publicKey = typeof import.meta !== "undefined" && import.meta.env ? import.meta.env.VITE_VAPI_PUBLIC_KEY : "";
@@ -196,19 +240,25 @@ export default function LandingPage() {
                {demoState === "idle" && (
                  <div className="np-screen np-idle">
                    <div className="np-idle-content">
-                     <div className="np-logo-circle">
+                     <div className="np-logo-circle" style={demoUsed ? { background: "rgba(255,255,255,0.05)", boxShadow: "none" } : {}}>
                        <AvatarIcon />
                      </div>
-                     <h3 className="np-idle-title">Calora AI</h3>
-                     <p className="np-idle-sub">Tap to experience a live AI voice call directly in your browser.</p>
+                     <h3 className="np-idle-title">{demoUsed ? "Demo Complete" : "Calora AI"}</h3>
+                     <p className="np-idle-sub">
+                       {demoUsed 
+                         ? "You've reached the demo limit for this browser. Join the waitlist above to get full access." 
+                         : "Tap to experience a live AI voice call directly in your browser."}
+                     </p>
                      
-                     <div className="np-trigger-wrapper">
-                       <div className="np-pulse-ring"></div>
-                       <button className="np-trigger-btn" onClick={triggerIncomingCall}>
-                         Receive Demo Call
-                       </button>
-                     </div>
-                     {testError && <p className="np-error">{testError}</p>}
+                     {!demoUsed && (
+                       <div className="np-trigger-wrapper">
+                         <div className="np-pulse-ring"></div>
+                         <button className="np-trigger-btn" onClick={triggerIncomingCall}>
+                           Receive Demo Call
+                         </button>
+                       </div>
+                     )}
+                     {testError && <p className="np-error" style={{marginTop: demoUsed ? '2rem' : '1rem'}}>{testError}</p>}
                    </div>
                  </div>
                )}
