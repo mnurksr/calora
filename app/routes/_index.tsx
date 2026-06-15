@@ -366,22 +366,22 @@ body{background:#0c0e14;color:#e4e4e7;font-family:'Inter',-apple-system,sans-ser
 .nav-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(99,102,241,0.35)}
 
 /* Hero Section (2-Column Grid) */
-.hero-section{position:relative;z-index:10;display:grid;grid-template-columns:1.1fr 0.9fr;gap:4rem;align-items:center;max-width:1200px;margin:0 auto;padding:9rem 2rem 5rem;min-height:85vh}
+.hero-section{position:relative;z-index:10;display:grid;grid-template-columns:1.1fr 0.9fr;gap:4rem;align-items:center;max-width:1200px;margin:0 auto;padding:6.5rem 2rem 2rem;min-height:85vh}
 .hero-content{display:flex;flex-direction:column;align-items:flex-start;text-align:left}
 .badge{display:inline-flex;align-items:center;gap:.5rem;padding:.3rem 1rem;border-radius:980px;background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.15);color:#a5b4fc;font-size:.8rem;font-weight:600;margin-bottom:2rem}
 .badge-dot{width:6px;height:6px;border-radius:50%;background:#818cf8;animation:pulse 2s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.heading{font-size:clamp(2.5rem,4.5vw,4.5rem);font-weight:900;letter-spacing:-2px;line-height:1.08;margin-bottom:1.5rem;color:#f4f4f5}
+.heading{font-size:clamp(3rem,5.5vw,5.5rem);font-weight:900;letter-spacing:-2px;line-height:1.08;margin-bottom:1rem;color:#f4f4f5}
 .gradient-text{background:linear-gradient(135deg,#818cf8,#a78bfa,#c084fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.sub{font-size:1.1rem;color:#71717a;max-width:480px;line-height:1.6;margin-bottom:2.5rem}
+.sub{font-size:1.25rem;color:#71717a;max-width:520px;line-height:1.6;margin-bottom:2rem}
 
 /* Waitlist */
 .waitlist{width:100%;max-width:420px}
 .form-row{display:flex;gap:.5rem}
-.email-input{flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:980px;padding:.85rem 1.5rem;color:#fff;font-size:.95rem;font-family:inherit;outline:none;transition:all .25s}
+.email-input{flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:980px;padding:1rem 1.5rem;color:#fff;font-size:1rem;font-family:inherit;outline:none;transition:all .25s}
 .email-input::placeholder{color:#52525b}
 .email-input:focus{border-color:rgba(99,102,241,0.5);box-shadow:0 0 0 3px rgba(99,102,241,0.1)}
-.submit-btn{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;border:none;border-radius:980px;padding:.85rem 1.75rem;font-size:.95rem;font-weight:700;font-family:inherit;cursor:pointer;transition:all .2s;white-space:nowrap}
+.submit-btn{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;border:none;border-radius:980px;padding:1rem 1.75rem;font-size:1rem;font-weight:700;font-family:inherit;cursor:pointer;transition:all .2s;white-space:nowrap}
 .submit-btn:hover{transform:translateY(-1px);box-shadow:0 8px 25px rgba(99,102,241,0.3)}
 .submit-btn:active{transform:scale(.97)}
 .submit-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
@@ -390,10 +390,10 @@ body{background:#0c0e14;color:#e4e4e7;font-family:'Inter',-apple-system,sans-ser
 .hint{margin-top:.75rem;color:#3f3f46;font-size:.8rem;text-align:left;padding-left:1rem}
 
 /* The Native Phone Frame (iOS Style) */
-.native-phone-frame{width:100%;max-width:340px;height:680px;margin:0 auto;background:#000;border:6px solid #1f2024;border-radius:44px;overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 30px 80px rgba(0,0,0,0.6), inset 0 0 0 2px #3f3f46, 0 0 0 1px #000;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",sans-serif}
-.ios-status-bar{position:absolute;top:0;left:0;right:0;height:44px;display:flex;justify-content:space-between;align-items:center;padding:0 24px;z-index:50}
+.native-phone-frame{width:100%;max-width:310px;height:620px;margin:0 auto;background:#000;border:6px solid #1f2024;border-radius:44px;overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 30px 80px rgba(0,0,0,0.6), inset 0 0 0 2px #3f3f46, 0 0 0 1px #000;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",sans-serif}
+.ios-status-bar{position:absolute;top:0;left:0;right:0;height:44px;display:flex;justify-content:space-between;align-items:center;padding:0 20px;z-index:50}
 .ios-time{color:white;font-size:14px;font-weight:600}
-.ios-dynamic-island{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:110px;height:30px;background:#000;border-radius:20px;z-index:60;box-shadow:0 0 0 1px rgba(255,255,255,0.1)}
+.ios-dynamic-island{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:100px;height:26px;background:#000;border-radius:20px;z-index:60;box-shadow:0 0 0 1px rgba(255,255,255,0.1)}
 .ios-icons{display:flex;gap:6px;align-items:center}
 .np-screen{position:absolute;inset:0;display:flex;flex-direction:column;transition:opacity 0.3s;padding-top:44px}
 
