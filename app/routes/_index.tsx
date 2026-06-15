@@ -258,11 +258,11 @@ export default function LandingPage() {
                        <AvatarIcon />
                      </div>
                      <h3 className="np-idle-title" onDoubleClick={clearDemoLock} style={{ cursor: demoUsed ? "pointer" : "default" }}>
-                       {demoUsed ? "Demo Complete" : "Calora AI"}
+                       {demoUsed ? "Demo Finished ⏱️" : "Calora AI"}
                      </h3>
                      <p className="np-idle-sub" style={{ marginBottom: demoUsed ? '3rem' : '2rem' }}>
                        {demoUsed 
-                         ? "You've reached the demo limit for this browser. Join the waitlist above to get full access." 
+                         ? "Thanks for testing! To manage API costs, demo calls are strictly limited. We hope you enjoyed the experience. Join the waitlist above for full access!" 
                          : "Enter your name below to experience a personalized AI voice call."}
                      </p>
                      
