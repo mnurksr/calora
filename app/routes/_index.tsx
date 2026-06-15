@@ -113,7 +113,7 @@ export default function LandingPage() {
           <a href="#waitlist" className="nav-btn">Join Waitlist →</a>
         </nav>
 
-        {/* Hero Section (Centered) */}
+        {/* Hero Section */}
         <section className="hero-section">
           <div className="badge"><span className="badge-dot" />Shopify App · Coming Soon</div>
           <h1 className="heading">Recover abandoned<br/>carts with <span className="gradient-text">AI voice calls</span></h1>
@@ -134,68 +134,68 @@ export default function LandingPage() {
               </Form>
             )}
             <p className="hint">Free for early adopters · No credit card required</p>
-          </div>
 
-          {/* Simple Interactive Demo Trigger */}
-          <div className="hero-demo-trigger">
-            <div className="hero-demo-divider"><span>or test the AI now</span></div>
-            {callStatus === "inactive" ? (
-              <button onClick={toggleCall} className="demo-btn">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
-                Start Live Web Demo
+            {/* Subtle Interactive Demo Trigger seamlessly embedded */}
+            <div className="hero-demo-trigger">
+              <button onClick={toggleCall} className={`demo-btn ${callStatus === 'active' || callStatus === 'loading' ? 'demo-btn-active' : ''}`}>
+                {callStatus === "active" ? (
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 9c-1.6 0-3.15.25-4.6.72v3.1c0 .39-.23.74-.56.9-.98.49-1.87 1.12-2.66 1.85-.18.18-.43.28-.7.28-.28 0-.53-.11-.71-.29L.29 13.08a.956.956 0 010-1.36C3.36 8.84 7.44 7 12 7s8.64 1.84 11.71 4.72c.18.18.29.44.29.71 0 .28-.11.53-.29.71l-2.48 2.48c-.18.18-.43.29-.71.29-.27 0-.52-.1-.7-.28-.79-.73-1.68-1.36-2.66-1.85a.996.996 0 01-.56-.9v-3.1C15.15 9.25 13.6 9 12 9z"/></svg>
+                ) : (
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
+                )}
+                {callStatus === "inactive" ? "Test AI Voice in Browser" : callStatus === "loading" ? "Connecting to agent..." : `End Voice Call · ${fmt(callTime)}`}
               </button>
-            ) : (
-              <button onClick={toggleCall} className="demo-btn demo-btn-active">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 9c-1.6 0-3.15.25-4.6.72v3.1c0 .39-.23.74-.56.9-.98.49-1.87 1.12-2.66 1.85-.18.18-.43.28-.7.28-.28 0-.53-.11-.71-.29L.29 13.08a.956.956 0 010-1.36C3.36 8.84 7.44 7 12 7s8.64 1.84 11.71 4.72c.18.18.29.44.29.71 0 .28-.11.53-.29.71l-2.48 2.48c-.18.18-.43.29-.71.29-.27 0-.52-.1-.7-.28-.79-.73-1.68-1.36-2.66-1.85a.996.996 0 01-.56-.9v-3.1C15.15 9.25 13.6 9 12 9z"/></svg>
-                {callStatus === "loading" ? "Connecting..." : `End Call · ${fmt(callTime)}`}
-              </button>
-            )}
-            {testError && <div className="error-msg">{testError}</div>}
-            {callStatus === "active" && (
-              <div className="demo-live-indicator">
-                <span className="call-live-dot" /> Live voice call active
-              </div>
-            )}
+            </div>
+            {testError && <div className="error-msg" style={{textAlign:"center", marginTop:"0.5rem"}}>{testError}</div>}
           </div>
         </section>
 
-        {/* Live Call Transcript Section (Animated Phone UI) */}
+        {/* Live Call Simulation (Native Phone UI) */}
         <section className="transcript-section">
-          <p className="section-tag">Live Call Transcript</p>
+          <p className="section-tag">Live Simulation</p>
           <h2 className="section-heading">Hear how Calora sounds</h2>
           
           <div className="demo-phone-wrapper">
-            <div className="phone-frame transcript-frame">
-              <div className="call-header">
-                <div className="call-avatar">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
-                </div>
-                <div>
-                  <div className="call-name">Sarah Jenkins</div>
-                  <div className="call-status">01:24</div>
-                </div>
-              </div>
+            <div className="native-phone-frame">
+               {/* Top Bar */}
+               <div className="np-top">
+                 <span>9:41</span>
+                 <div className="np-icons">📶 🔋</div>
+               </div>
+               
+               {/* Call Info */}
+               <div className="np-call-info">
+                 <div className="np-avatar">🤖</div>
+                 <h3 className="np-name">Calora AI Agent</h3>
+                 <p className="np-status">01:24</p>
+               </div>
 
-              <div className="waveform static-waveform">
-                {Array.from({length: 24}).map((_, i) => (
-                  <div key={i} className="wave-bar" style={{ animationDelay: `${i * 0.1}s` }} />
-                ))}
-              </div>
+               {/* Live Captions (Transcript) */}
+               <div className="np-captions">
+                 <div className="np-caption-line ai-line" style={{animationDelay: "0.5s"}}>
+                    Hi Sarah! I noticed you left some items in your cart. Can I offer you 15% off?
+                 </div>
+                 <div className="np-caption-line user-line" style={{animationDelay: "3s"}}>
+                    Oh really? That sounds great!
+                 </div>
+                 <div className="np-caption-line ai-line" style={{animationDelay: "5s"}}>
+                    Perfect! I just texted you the code SAVE15. It's valid for 24 hours.
+                 </div>
+               </div>
 
-              <div className="transcript-box">
-                <div className="t-line t-ai" style={{ animationDelay: "0.5s" }}>
-                  <div className="t-avatar">🤖</div>
-                  <div className="t-text">Hi Sarah! I noticed you left some items in your cart at Luxe Beauty. I'd love to help — can I offer you 15% off to complete your order?</div>
-                </div>
-                <div className="t-line t-user" style={{ animationDelay: "2.5s" }}>
-                  <div className="t-avatar">👤</div>
-                  <div className="t-text">Oh really? I was on the fence about the serum. That sounds great!</div>
-                </div>
-                <div className="t-line t-ai" style={{ animationDelay: "4.5s" }}>
-                  <div className="t-avatar">🤖</div>
-                  <div className="t-text">Perfect! I just texted you a link with your discount code <strong style={{ color: "#a78bfa" }}>SAVE15</strong> applied. It's valid for 24 hours. Anything else I can help with?</div>
-                </div>
-              </div>
+               {/* Native Phone Controls */}
+               <div className="np-controls">
+                 <div className="np-btn-row">
+                   <div className="np-btn"><div className="np-icon">🎙️</div><span>Mute</span></div>
+                   <div className="np-btn"><div className="np-icon">🔢</div><span>Keypad</span></div>
+                   <div className="np-btn"><div className="np-icon">🔊</div><span>Audio</span></div>
+                 </div>
+                 <div className="np-end-btn-wrapper">
+                   <div className="np-end-btn">
+                     <svg width="32" height="32" viewBox="0 0 24 24" fill="white"><path d="M12 9c-1.6 0-3.15.25-4.6.72v3.1c0 .39-.23.74-.56.9-.98.49-1.87 1.12-2.66 1.85-.18.18-.43.28-.7.28-.28 0-.53-.11-.71-.29L.29 13.08a.956.956 0 010-1.36C3.36 8.84 7.44 7 12 7s8.64 1.84 11.71 4.72c.18.18.29.44.29.71 0 .28-.11.53-.29.71l-2.48 2.48c-.18.18-.43.29-.71.29-.27 0-.52-.1-.7-.28-.79-.73-1.68-1.36-2.66-1.85a.996.996 0 01-.56-.9v-3.1C15.15 9.25 13.6 9 12 9z"/></svg>
+                   </div>
+                 </div>
+               </div>
             </div>
           </div>
         </section>
@@ -270,7 +270,7 @@ body{background:#0c0e14;color:#e4e4e7;font-family:'Inter',-apple-system,sans-ser
 .nav-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(99,102,241,0.35)}
 
 /* Hero Section (Centered) */
-.hero-section{position:relative;z-index:10;display:flex;flex-direction:column;align-items:center;text-align:center;padding:9rem 2rem 5rem;min-height:75vh;justify-content:center}
+.hero-section{position:relative;z-index:10;display:flex;flex-direction:column;align-items:center;text-align:center;padding:7rem 2rem 4rem;min-height:auto;justify-content:center}
 .badge{display:inline-flex;align-items:center;gap:.5rem;padding:.3rem 1rem;border-radius:980px;background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.15);color:#a5b4fc;font-size:.8rem;font-weight:600;margin-bottom:2rem}
 .badge-dot{width:6px;height:6px;border-radius:50%;background:#818cf8;animation:pulse 2s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
@@ -290,44 +290,38 @@ body{background:#0c0e14;color:#e4e4e7;font-family:'Inter',-apple-system,sans-ser
 .submit-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
 .success-msg{background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.15);color:#4ade80;padding:1.1rem 2rem;border-radius:980px;font-weight:600;font-size:.95rem;text-align:center}
 .error-msg{color:#f87171;font-size:.8rem;margin-top:.5rem;padding-left:1.5rem}
-.hint{margin-top:.75rem;color:#3f3f46;font-size:.8rem;text-align:center}
+.hint{margin-top:.75rem;color:#3f3f46;font-size:.8rem;text-align:center;margin-bottom:1.5rem}
 
-/* Simple Interactive Button */
-.hero-demo-trigger{margin-top:3.5rem;display:flex;flex-direction:column;align-items:center;gap:1rem;width:100%;max-width:480px}
-.hero-demo-divider{position:relative;width:100%;text-align:center;margin-bottom:0.5rem}
-.hero-demo-divider::before{content:"";position:absolute;top:50%;left:0;right:0;height:1px;background:rgba(255,255,255,0.06);z-index:1}
-.hero-demo-divider span{position:relative;z-index:2;background:#0c0e14;padding:0 1rem;color:#71717a;font-size:0.8rem;text-transform:uppercase;letter-spacing:1px;font-weight:600}
-.demo-btn{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);color:#fff;padding:0.85rem 2.25rem;border-radius:980px;font-size:0.95rem;font-weight:600;display:flex;align-items:center;gap:0.6rem;cursor:pointer;transition:all 0.2s}
-.demo-btn:hover{background:rgba(255,255,255,0.08);transform:translateY(-1px)}
-.demo-btn-active{background:rgba(239,68,68,0.1);border-color:rgba(239,68,68,0.2);color:#ef4444}
-.demo-btn-active:hover{background:rgba(239,68,68,0.15)}
-.demo-live-indicator{font-size:0.85rem;color:#22c55e;display:flex;align-items:center;gap:0.4rem;margin-top:0.25rem;font-weight:500}
+/* Simple Interactive Button (Embedded) */
+.hero-demo-trigger{display:flex;justify-content:center;margin-top:1rem}
+.demo-btn{background:transparent;border:1px solid rgba(255,255,255,0.15);color:#a1a1aa;padding:0.75rem 1.75rem;border-radius:980px;font-size:0.9rem;font-weight:600;display:flex;align-items:center;gap:0.5rem;cursor:pointer;transition:all 0.2s}
+.demo-btn:hover{background:rgba(255,255,255,0.05);color:#fff;border-color:rgba(255,255,255,0.3)}
+.demo-btn-active{background:rgba(239,68,68,0.1);border-color:rgba(239,68,68,0.3);color:#ef4444}
+.demo-btn-active:hover{background:rgba(239,68,68,0.15);color:#f87171}
 
-/* Phone Frame Components (Used in both interactive and transcript) */
-.phone-frame{width:100%;max-width:400px;margin:0 auto;background:linear-gradient(180deg,#14161e 0%,#101218 100%);border:1px solid rgba(255,255,255,0.06);border-radius:2rem;overflow:hidden;box-shadow:0 25px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05)}
-.call-header{display:flex;align-items:center;gap:1rem;padding:1.5rem 1.75rem;border-bottom:1px solid rgba(255,255,255,0.04)}
-.call-avatar{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#a78bfa);display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0}
-.call-name{font-weight:700;font-size:1rem;color:#f4f4f5}
-.call-status{font-size:.85rem;color:#71717a;display:flex;align-items:center;gap:.4rem;margin-top:.15rem}
-.call-live-dot{width:6px;height:6px;border-radius:50%;background:#22c55e;animation:pulse 1.5s ease-in-out infinite}
-.waveform{display:flex;align-items:center;justify-content:center;gap:4px;padding:1.75rem;height:80px}
-.wave-bar{width:4px;border-radius:4px;background:linear-gradient(to top,#6366f1,#a78bfa);animation:waveAnim 1.2s ease-in-out infinite alternate}
-@keyframes waveAnim{0%{transform:scaleY(0.3);opacity:.4}100%{transform:scaleY(1);opacity:1}}
-
-/* Transcript Section (Animated Phone UI) */
+/* Transcript Section (Native Phone UI) */
 .transcript-section{position:relative;z-index:10;padding:5rem 2rem;max-width:1000px;margin:0 auto}
 .demo-phone-wrapper{display:flex;justify-content:center;margin-top:3rem}
-.transcript-frame{height:550px;display:flex;flex-direction:column;position:relative}
-.static-waveform{height:60px;padding:1rem;opacity:0.7}
-.transcript-box{flex:1;background:rgba(0,0,0,0.2);border-top:1px solid rgba(255,255,255,0.04);padding:1.5rem;display:flex;flex-direction:column;gap:1rem;overflow:hidden;position:relative}
-.transcript-box::after{content:'';position:absolute;bottom:0;left:0;right:0;height:40px;background:linear-gradient(to top, #101218, transparent)}
-.t-line{display:flex;gap:0.75rem;opacity:0;transform:translateY(20px);animation:slideUpFade 0.6s ease forwards}
+.native-phone-frame{width:100%;max-width:360px;height:720px;margin:0 auto;background:#1a1c23;border:8px solid #000;border-radius:3rem;overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 25px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05);font-family:-apple-system,BlinkMacSystemFont,sans-serif}
+.np-top{display:flex;justify-content:space-between;padding:1rem 1.5rem;font-size:0.85rem;font-weight:600;color:#fff}
+.np-icons{letter-spacing:4px}
+.np-call-info{display:flex;flex-direction:column;align-items:center;margin-top:2rem}
+.np-avatar{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#a78bfa);display:flex;align-items:center;justify-content:center;font-size:2.5rem;margin-bottom:1rem;box-shadow:0 0 30px rgba(99,102,241,0.4);animation:pulseAvatar 2s infinite}
+@keyframes pulseAvatar{0%{box-shadow:0 0 0 0 rgba(99,102,241,0.4)}70%{box-shadow:0 0 0 20px rgba(99,102,241,0)}100%{box-shadow:0 0 0 0 rgba(99,102,241,0)}}
+.np-name{font-size:1.5rem;font-weight:400;color:#fff;margin-bottom:0.25rem}
+.np-status{font-size:1rem;color:#a1a1aa}
+.np-captions{flex:1;display:flex;flex-direction:column;justify-content:flex-end;padding:2rem 1.5rem;gap:1rem;overflow:hidden}
+.np-caption-line{padding:1rem 1.25rem;border-radius:1rem;font-size:0.95rem;line-height:1.4;opacity:0;transform:translateY(20px);animation:slideUpFade 0.6s ease forwards}
 @keyframes slideUpFade{to{opacity:1;transform:translateY(0)}}
-.t-avatar{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:0.75rem;flex-shrink:0}
-.t-text{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.05);padding:0.75rem 1rem;border-radius:1rem;font-size:0.85rem;line-height:1.5;color:#d4d4d8}
-.t-ai .t-text{border-top-left-radius:2px;background:rgba(99,102,241,0.06);border-color:rgba(99,102,241,0.1)}
-.t-user{flex-direction:row-reverse}
-.t-user .t-text{border-top-right-radius:2px;background:rgba(255,255,255,0.05)}
+.ai-line{background:rgba(99,102,241,0.15);color:#e0e7ff;backdrop-filter:blur(10px);border:1px solid rgba(99,102,241,0.2)}
+.user-line{background:rgba(255,255,255,0.1);color:#fff;backdrop-filter:blur(10px);align-self:flex-end;text-align:right}
+.np-controls{padding:2rem 1.5rem 2.5rem;background:linear-gradient(to top, rgba(0,0,0,0.8), transparent)}
+.np-btn-row{display:flex;justify-content:space-between;margin-bottom:2rem;padding:0 1rem}
+.np-btn{display:flex;flex-direction:column;align-items:center;gap:0.5rem;cursor:pointer}
+.np-icon{width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-size:1.5rem;backdrop-filter:blur(10px)}
+.np-btn span{font-size:0.75rem;color:#fff}
+.np-end-btn-wrapper{display:flex;justify-content:center}
+.np-end-btn{width:72px;height:72px;border-radius:50%;background:#ef4444;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 10px 25px rgba(239,68,68,0.4)}
 
 /* Stats */
 .stats{position:relative;z-index:10;display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;max-width:800px;margin:0 auto;padding:4rem 2rem;text-align:center}
