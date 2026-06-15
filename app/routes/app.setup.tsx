@@ -15,7 +15,7 @@ import {
 } from "@shopify/polaris";
 import { authenticate } from "../shopify.server";
 import db from "../db.server";
-import { encrypt } from "../services/encryption.server";
+import { encrypt, decrypt } from "../services/encryption.server";
 import { createRecoveryAssistant, importTwilioNumber } from "../services/vapi.server";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
