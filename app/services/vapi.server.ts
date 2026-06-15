@@ -75,6 +75,29 @@ export async function createRecoveryAssistant(
             content: systemPrompt,
           },
         ],
+        tools: [
+          {
+            type: "function",
+            function: {
+              name: "create_discount",
+              description:
+                "Create a personalized discount code for the customer. Use this when the customer expresses interest but has concerns about price or wants an incentive to complete their purchase.",
+              parameters: {
+                type: "object",
+                properties: {
+                  reason: {
+                    type: "string",
+                    description: "The reason for offering the discount",
+                  },
+                },
+                required: ["reason"],
+              },
+            },
+            server: {
+              url: config.serverUrl,
+            },
+          },
+        ],
       },
       voice: {
         provider: "11labs",
@@ -129,29 +152,6 @@ export async function createRecoveryAssistant(
           },
         },
       },
-      tools: [
-        {
-          type: "function",
-          function: {
-            name: "create_discount",
-            description:
-              "Create a personalized discount code for the customer. Use this when the customer expresses interest but has concerns about price or wants an incentive to complete their purchase.",
-            parameters: {
-              type: "object",
-              properties: {
-                reason: {
-                  type: "string",
-                  description: "The reason for offering the discount",
-                },
-              },
-              required: ["reason"],
-            },
-          },
-          server: {
-            url: config.serverUrl,
-          },
-        },
-      ],
     }),
   });
 
@@ -177,31 +177,31 @@ export async function updateAssistant(
             content: systemPrompt,
           },
         ],
-      },
-      serverUrl: config.serverUrl,
-      tools: [
-        {
-          type: "function",
-          function: {
-            name: "create_discount",
-            description:
-              "Create a personalized discount code for the customer. Use this when the customer expresses interest but has concerns about price or wants an incentive to complete their purchase.",
-            parameters: {
-              type: "object",
-              properties: {
-                reason: {
-                  type: "string",
-                  description: "The reason for offering the discount",
+        tools: [
+          {
+            type: "function",
+            function: {
+              name: "create_discount",
+              description:
+                "Create a personalized discount code for the customer. Use this when the customer expresses interest but has concerns about price or wants an incentive to complete their purchase.",
+              parameters: {
+                type: "object",
+                properties: {
+                  reason: {
+                    type: "string",
+                    description: "The reason for offering the discount",
+                  },
                 },
+                required: ["reason"],
               },
-              required: ["reason"],
+            },
+            server: {
+              url: config.serverUrl,
             },
           },
-          server: {
-            url: config.serverUrl,
-          },
-        },
-      ],
+        ],
+      },
+      serverUrl: config.serverUrl,
     }),
   });
 }
