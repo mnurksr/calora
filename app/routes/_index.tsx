@@ -70,9 +70,17 @@ export default function LandingPage() {
   // Auto-scroll transcripts
   useEffect(() => {
     if (transcriptsEndRef.current) {
-      transcriptsEndRef.current.scrollIntoView({ behavior: "smooth" });
+      const container = transcriptsEndRef.current.parentElement;
+      if (container) {
+        container.scrollTo({ top: container.scrollHeight, behavior: "smooth" });
+      }
     }
   }, [transcripts]);
+
+  const clearDemoLock = () => {
+    localStorage.removeItem("calora_demo_used");
+    setDemoUsed(false);
+  };
 
   // Handle local storage demo usage
   useEffect(() => {
@@ -249,7 +257,9 @@ export default function LandingPage() {
                      <div className="np-logo-circle" style={demoUsed ? { background: "rgba(255,255,255,0.05)", boxShadow: "none" } : {}}>
                        <AvatarIcon />
                      </div>
-                     <h3 className="np-idle-title">{demoUsed ? "Demo Complete" : "Calora AI"}</h3>
+                     <h3 className="np-idle-title" onDoubleClick={clearDemoLock} style={{ cursor: demoUsed ? "pointer" : "default" }}>
+                       {demoUsed ? "Demo Complete" : "Calora AI"}
+                     </h3>
                      <p className="np-idle-sub" style={{ marginBottom: demoUsed ? '3rem' : '2rem' }}>
                        {demoUsed 
                          ? "You've reached the demo limit for this browser. Join the waitlist above to get full access." 
@@ -550,10 +560,10 @@ body{background:#0c0e14;color:#e4e4e7;font-family:'Inter',-apple-system,sans-ser
 .np-captions{flex:1;display:flex;flex-direction:column;padding:1.5rem;gap:0.75rem;overflow-y:auto;scroll-behavior:smooth}
 .np-captions::-webkit-scrollbar{display:none}
 .np-caption-hint{text-align:center;color:#52525b;font-size:0.85rem;margin-top:auto;padding-bottom:1rem}
-.np-caption-line{padding:0.85rem 1.15rem;border-radius:1.2rem;font-size:0.95rem;line-height:1.4;animation:slideUpFade 0.3s ease forwards}
+.np-caption-line{padding:0.6rem 1rem;border-radius:1.5rem;font-size:0.9rem;line-height:1.4;animation:slideUpFade 0.3s ease forwards;width:fit-content;max-width:85%}
 @keyframes slideUpFade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-.ai-line{background:rgba(99,102,241,0.15);color:#e0e7ff;border:1px solid rgba(99,102,241,0.2);align-self:flex-start;border-bottom-left-radius:0.3rem;max-width:90%}
-.user-line{background:rgba(255,255,255,0.15);color:#fff;align-self:flex-end;border-bottom-right-radius:0.3rem;max-width:90%}
+.ai-line{background:rgba(255,255,255,0.08);color:#f4f4f5;align-self:flex-start;border-bottom-left-radius:0.3rem}
+.user-line{background:#6366f1;color:#fff;align-self:flex-end;border-bottom-right-radius:0.3rem}
 
 .np-controls{background:linear-gradient(to top, rgba(0,0,0,1) 50%, transparent);padding:0 1.5rem}
 .np-end-btn-wrapper{display:flex;justify-content:center}
