@@ -99,7 +99,7 @@ export default function LandingPage() {
             type: "add-message",
             message: {
               role: "system",
-              content: "The demo time is strictly up in 15 seconds. Please politely thank the user for testing Calora, say goodbye, and let them know the call is ending."
+              content: "The demo time is strictly up in 15 seconds. Please politely break character, explain honestly that 'to keep our API costs down, this demo is strictly limited to 2 minutes', and advise them to join the waitlist. Then say goodbye and let them know the call is ending."
             }
           });
         } catch (e) {
@@ -380,6 +380,46 @@ export default function LandingPage() {
           </div>
         </section>
 
+        {/* FAQ Section */}
+        <section className="faq">
+          <p className="section-tag">FAQ</p>
+          <h2 className="section-heading" style={{ marginBottom: "2.5rem" }}>Got questions? We got answers.</h2>
+          <div className="faq-list">
+            {[
+              {
+                q: "What exactly does Calora do?",
+                a: "Calora is an AI voice agent that automatically calls customers who abandon their Shopify checkout. It holds a natural, human-like conversation, offers a custom discount code, and helps them complete their purchase over the phone."
+              },
+              {
+                q: "Is the AI voice realistic?",
+                a: "Yes. We use state-of-the-art voice models with sub-500ms latency. Customers often don't even realize they're speaking to an AI. You can test it yourself using the live demo at the top of the page."
+              },
+              {
+                q: "Do I need to make any calls myself?",
+                a: "No! It runs 100% on autopilot. You just install the Shopify app, set your discount rules (e.g., offer 15% off if the cart value is over $100), and Calora handles all the calling and convincing."
+              },
+              {
+                q: "Is it legal to call abandoned carts?",
+                a: "Absolutely. Calora only initiates calls to customers who have explicitly opted-in to phone marketing during your Shopify checkout flow, keeping you fully compliant with TCPA and local regulations."
+              },
+              {
+                q: "How much does it cost?",
+                a: "During our early-access phase, you only pay a small commission on successful recoveries. There are zero fixed monthly fees right now. Join the waitlist today to secure your early-adopter pricing."
+              }
+            ].map((faq, i) => (
+              <details key={i} className="faq-item">
+                <summary className="faq-q">
+                  {faq.q}
+                  <span className="faq-icon">+</span>
+                </summary>
+                <div className="faq-a">
+                  <p>{faq.a}</p>
+                </div>
+              </details>
+            ))}
+          </div>
+        </section>
+
         {/* Bottom CTA */}
         <section className="cta">
           <div className="cta-card">
@@ -521,6 +561,18 @@ body{background:#0c0e14;color:#e4e4e7;font-family:'Inter',-apple-system,sans-ser
 .cta-card{max-width:620px;margin:0 auto;padding:3.5rem 2.5rem;border-radius:2rem;background:linear-gradient(135deg,rgba(99,102,241,0.06),rgba(168,85,247,0.04));border:1px solid rgba(99,102,241,0.1)}
 .cta-title{font-size:clamp(1.6rem,3vw,2.25rem);font-weight:800;letter-spacing:-1.5px;margin-bottom:.75rem;color:#f4f4f5}
 .cta-desc{color:#71717a;font-size:1rem;margin-bottom:2rem;line-height:1.6}
+
+/* FAQ */
+.faq{position:relative;z-index:10;padding:5rem 2rem;max-width:800px;margin:0 auto}
+.faq-list{display:flex;flex-direction:column;gap:1rem}
+.faq-item{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:1rem;overflow:hidden;transition:background .2s}
+.faq-item:hover{background:rgba(255,255,255,0.04)}
+.faq-q{padding:1.5rem;font-size:1.05rem;font-weight:600;color:#f4f4f5;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+.faq-q::-webkit-details-marker{display:none}
+.faq-icon{font-size:1.5rem;color:#71717a;font-weight:300;transition:transform .3s}
+.faq-item[open] .faq-icon{transform:rotate(45deg);color:#818cf8}
+.faq-a{padding:0 1.5rem 1.5rem;color:#a1a1aa;line-height:1.6;font-size:.95rem;animation:fadeInDown .3s ease forwards}
+@keyframes fadeInDown{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
 
 .footer{position:relative;z-index:10;text-align:center;padding:2.5rem 2rem;border-top:1px solid rgba(255,255,255,0.04);color:#27272a;font-size:.8rem}
 
