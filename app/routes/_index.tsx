@@ -113,80 +113,49 @@ export default function LandingPage() {
           <a href="#waitlist" className="nav-btn">Join Waitlist →</a>
         </nav>
 
-        {/* Hero Section (2 Columns: Content + Interactive Demo) */}
+        {/* Hero Section (Centered) */}
         <section className="hero-section">
-          <div className="hero-content">
-            <div className="badge"><span className="badge-dot" />Shopify App · Coming Soon</div>
-            <h1 className="heading">Recover abandoned<br/>carts with <span className="gradient-text">AI voice calls</span></h1>
-            <p className="sub">Calora automatically calls your customers with a human-like AI voice, offers a personalized discount, and recovers the sale — on autopilot.</p>
-            <div className="waitlist" id="waitlist">
-              {actionData?.success ? (
-                <div className="success-msg">✓ You're on the list. We'll reach out soon.</div>
-              ) : (
-                <Form method="post">
-                  <div className="form-row">
-                    <input type="email" name="email" placeholder="your@email.com" required className="email-input" id="waitlist-email" />
-                    <button type="submit" disabled={isSubmitting} className="submit-btn" id="waitlist-btn">
-                      {isSubmitting ? "Joining..." : "Get Early Access"}
-                    </button>
-                  </div>
-                  {actionData?.error && <div className="error-msg">{actionData.error}</div>}
-                </Form>
-              )}
-              <p className="hint">Free for early adopters · No credit card required</p>
-            </div>
+          <div className="badge"><span className="badge-dot" />Shopify App · Coming Soon</div>
+          <h1 className="heading">Recover abandoned<br/>carts with <span className="gradient-text">AI voice calls</span></h1>
+          <p className="sub">Calora automatically calls your customers with a human-like AI voice, offers a personalized discount, and recovers the sale — on autopilot.</p>
+          
+          <div className="waitlist" id="waitlist">
+            {actionData?.success ? (
+              <div className="success-msg">✓ You're on the list. We'll reach out soon.</div>
+            ) : (
+              <Form method="post">
+                <div className="form-row">
+                  <input type="email" name="email" placeholder="your@email.com" required className="email-input" id="waitlist-email" />
+                  <button type="submit" disabled={isSubmitting} className="submit-btn" id="waitlist-btn">
+                    {isSubmitting ? "Joining..." : "Get Early Access"}
+                  </button>
+                </div>
+                {actionData?.error && <div className="error-msg">{actionData.error}</div>}
+              </Form>
+            )}
+            <p className="hint">Free for early adopters · No credit card required</p>
           </div>
 
-          <div className="hero-interactive">
-            {/* Interactive Web Demo inside Hero */}
-            <div className="phone-frame">
-              <div className="call-header" style={{ justifyContent: "center", flexDirection: "column", padding: "2.5rem 1.5rem 1.5rem", borderBottom: "none" }}>
-                <div className="call-avatar" style={{ width: "80px", height: "80px", marginBottom: "1rem" }}>
-                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
-                </div>
-                <div className="call-name" style={{ fontSize: "1.25rem" }}>Calora Web Agent</div>
-                <div className="call-status" style={{ justifyContent: "center", marginTop: "0.5rem" }}>
-                  {callStatus === "inactive" && "Test the AI voice directly from your browser."}
-                  {callStatus === "loading" && "Connecting to agent..."}
-                  {callStatus === "active" && (
-                    <>
-                      <span className="call-live-dot" />
-                      Call in progress · {fmt(callTime)}
-                    </>
-                  )}
-                </div>
-                {testError && <div className="error-msg" style={{ marginTop: "1rem", textAlign: "center", background: "rgba(239, 68, 68, 0.1)", padding: "0.5rem", borderRadius: "8px" }}>{testError}</div>}
+          {/* Simple Interactive Demo Trigger */}
+          <div className="hero-demo-trigger">
+            <div className="hero-demo-divider"><span>or test the AI now</span></div>
+            {callStatus === "inactive" ? (
+              <button onClick={toggleCall} className="demo-btn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
+                Start Live Web Demo
+              </button>
+            ) : (
+              <button onClick={toggleCall} className="demo-btn demo-btn-active">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 9c-1.6 0-3.15.25-4.6.72v3.1c0 .39-.23.74-.56.9-.98.49-1.87 1.12-2.66 1.85-.18.18-.43.28-.7.28-.28 0-.53-.11-.71-.29L.29 13.08a.956.956 0 010-1.36C3.36 8.84 7.44 7 12 7s8.64 1.84 11.71 4.72c.18.18.29.44.29.71 0 .28-.11.53-.29.71l-2.48 2.48c-.18.18-.43.29-.71.29-.27 0-.52-.1-.7-.28-.79-.73-1.68-1.36-2.66-1.85a.996.996 0 01-.56-.9v-3.1C15.15 9.25 13.6 9 12 9z"/></svg>
+                {callStatus === "loading" ? "Connecting..." : `End Call · ${fmt(callTime)}`}
+              </button>
+            )}
+            {testError && <div className="error-msg">{testError}</div>}
+            {callStatus === "active" && (
+              <div className="demo-live-indicator">
+                <span className="call-live-dot" /> Live voice call active
               </div>
-
-              <div className="waveform" style={{ height: "120px", opacity: callStatus === "active" ? 1 : 0.2, transition: "opacity 0.3s" }}>
-                {Array.from({length: 32}).map((_, i) => {
-                  const isCenter = i > 10 && i < 22;
-                  const volMultiplier = isCenter ? 1.5 : 0.5;
-                  const dynamicHeight = callStatus === "active" ? 12 + (volumeLevel * 100 * volMultiplier * Math.random()) : 12 + Math.sin(i * 0.7) * 10;
-                  return (
-                    <div key={i} className="wave-bar" style={{
-                      animationDelay: `${i * 0.08}s`,
-                      height: `${Math.min(dynamicHeight, 80)}px`,
-                      transition: "height 0.1s ease-out"
-                    }} />
-                  );
-                })}
-              </div>
-
-              <div className="call-controls" style={{ paddingBottom: "2.5rem", borderTop: "none", display: "flex", justifyContent: "center" }}>
-                {callStatus === "inactive" ? (
-                  <button onClick={toggleCall} className="submit-btn" style={{ width: "80%", padding: "1rem", display: "flex", alignItems: "center", justifyContent: "center", gap: "0.5rem" }}>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
-                    Start Live Demo
-                  </button>
-                ) : (
-                  <button onClick={toggleCall} className="submit-btn" style={{ width: "80%", padding: "1rem", background: "#ef4444", boxShadow: "0 8px 25px rgba(239, 68, 68, 0.3)", display: "flex", alignItems: "center", justifyContent: "center", gap: "0.5rem" }}>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 9c-1.6 0-3.15.25-4.6.72v3.1c0 .39-.23.74-.56.9-.98.49-1.87 1.12-2.66 1.85-.18.18-.43.28-.7.28-.28 0-.53-.11-.71-.29L.29 13.08a.956.956 0 010-1.36C3.36 8.84 7.44 7 12 7s8.64 1.84 11.71 4.72c.18.18.29.44.29.71 0 .28-.11.53-.29.71l-2.48 2.48c-.18.18-.43.29-.71.29-.27 0-.52-.1-.7-.28-.79-.73-1.68-1.36-2.66-1.85a.996.996 0 01-.56-.9v-3.1C15.15 9.25 13.6 9 12 9z"/></svg>
-                    {callStatus === "loading" ? "Cancel" : "End Call"}
-                  </button>
-                )}
-              </div>
-            </div>
+            )}
           </div>
         </section>
 
@@ -300,18 +269,17 @@ body{background:#0c0e14;color:#e4e4e7;font-family:'Inter',-apple-system,sans-ser
 .nav-btn{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;text-decoration:none;padding:.55rem 1.25rem;border-radius:980px;font-size:.85rem;font-weight:600;transition:all .2s;border:none}
 .nav-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(99,102,241,0.35)}
 
-/* Hero Section (2-Column Grid) */
-.hero-section{position:relative;z-index:10;display:grid;grid-template-columns:1.1fr 0.9fr;gap:4rem;align-items:center;max-width:1200px;margin:0 auto;padding:9rem 2rem 5rem;min-height:75vh}
-.hero-content{display:flex;flex-direction:column;align-items:flex-start;text-align:left}
+/* Hero Section (Centered) */
+.hero-section{position:relative;z-index:10;display:flex;flex-direction:column;align-items:center;text-align:center;padding:9rem 2rem 5rem;min-height:75vh;justify-content:center}
 .badge{display:inline-flex;align-items:center;gap:.5rem;padding:.3rem 1rem;border-radius:980px;background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.15);color:#a5b4fc;font-size:.8rem;font-weight:600;margin-bottom:2rem}
 .badge-dot{width:6px;height:6px;border-radius:50%;background:#818cf8;animation:pulse 2s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.heading{font-size:clamp(2.5rem,5vw,4.5rem);font-weight:900;letter-spacing:-2px;line-height:1.08;margin-bottom:1.5rem;color:#f4f4f5}
+.heading{font-size:clamp(2.5rem,6.5vw,5rem);font-weight:900;letter-spacing:-2.5px;line-height:1.08;max-width:850px;margin-bottom:1.5rem;color:#f4f4f5}
 .gradient-text{background:linear-gradient(135deg,#818cf8,#a78bfa,#c084fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.sub{font-size:1.1rem;color:#71717a;max-width:480px;line-height:1.6;margin-bottom:2.5rem}
+.sub{font-size:1.15rem;color:#71717a;max-width:540px;line-height:1.7;margin-bottom:2.5rem}
 
 /* Waitlist */
-.waitlist{width:100%;max-width:420px}
+.waitlist{width:100%;max-width:480px;margin:0 auto}
 .form-row{display:flex;gap:.5rem}
 .email-input{flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:980px;padding:.85rem 1.5rem;color:#fff;font-size:.95rem;font-family:inherit;outline:none;transition:all .25s}
 .email-input::placeholder{color:#52525b}
@@ -322,7 +290,18 @@ body{background:#0c0e14;color:#e4e4e7;font-family:'Inter',-apple-system,sans-ser
 .submit-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
 .success-msg{background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.15);color:#4ade80;padding:1.1rem 2rem;border-radius:980px;font-weight:600;font-size:.95rem;text-align:center}
 .error-msg{color:#f87171;font-size:.8rem;margin-top:.5rem;padding-left:1.5rem}
-.hint{margin-top:.75rem;color:#3f3f46;font-size:.8rem;text-align:left;padding-left:1rem}
+.hint{margin-top:.75rem;color:#3f3f46;font-size:.8rem;text-align:center}
+
+/* Simple Interactive Button */
+.hero-demo-trigger{margin-top:3.5rem;display:flex;flex-direction:column;align-items:center;gap:1rem;width:100%;max-width:480px}
+.hero-demo-divider{position:relative;width:100%;text-align:center;margin-bottom:0.5rem}
+.hero-demo-divider::before{content:"";position:absolute;top:50%;left:0;right:0;height:1px;background:rgba(255,255,255,0.06);z-index:1}
+.hero-demo-divider span{position:relative;z-index:2;background:#0c0e14;padding:0 1rem;color:#71717a;font-size:0.8rem;text-transform:uppercase;letter-spacing:1px;font-weight:600}
+.demo-btn{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);color:#fff;padding:0.85rem 2.25rem;border-radius:980px;font-size:0.95rem;font-weight:600;display:flex;align-items:center;gap:0.6rem;cursor:pointer;transition:all 0.2s}
+.demo-btn:hover{background:rgba(255,255,255,0.08);transform:translateY(-1px)}
+.demo-btn-active{background:rgba(239,68,68,0.1);border-color:rgba(239,68,68,0.2);color:#ef4444}
+.demo-btn-active:hover{background:rgba(239,68,68,0.15)}
+.demo-live-indicator{font-size:0.85rem;color:#22c55e;display:flex;align-items:center;gap:0.4rem;margin-top:0.25rem;font-weight:500}
 
 /* Phone Frame Components (Used in both interactive and transcript) */
 .phone-frame{width:100%;max-width:400px;margin:0 auto;background:linear-gradient(180deg,#14161e 0%,#101218 100%);border:1px solid rgba(255,255,255,0.06);border-radius:2rem;overflow:hidden;box-shadow:0 25px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05)}
@@ -377,9 +356,7 @@ body{background:#0c0e14;color:#e4e4e7;font-family:'Inter',-apple-system,sans-ser
 
 @media(max-width:768px){
   .nav{padding:1rem 1.5rem}
-  .hero-section{grid-template-columns:1fr;padding:7rem 1.5rem 3rem;text-align:center}
-  .hero-content{align-items:center;text-align:center}
-  .hint{text-align:center;padding-left:0}
+  .hero-section{padding:7rem 1.5rem 3rem}
   .form-row{flex-direction:column}
   .submit-btn{width:100%}
   .steps{grid-template-columns:1fr}
