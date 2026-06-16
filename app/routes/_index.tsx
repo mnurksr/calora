@@ -31,7 +31,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         from: 'Calora <calora@mercsync.com>',
         to: cleanEmail,
         subject: 'You are on the list! 👋',
-        text: `Hey there!\n\nI'm Muhammed Nur Keser, the developer behind Calora.\n\nThank you so much for joining our waitlist! I'm currently working hard to finalize the Shopify integration and put the finishing touches on our AI voice agent.\n\nI will personally email you the exact moment we are ready to onboard our first beta testers. We will operate on a pure performance model—you'll only pay a small commission on the carts we successfully recover for you.\n\nIf you have any questions or feature requests in the meantime, please feel free to reply directly to this email.\n\nTalk soon,\nMuhammed Nur Keser\nFounder, Calora`,
+        text: `Hey there!\n\nI'm Muhammed Nur Keser, the developer behind Calora.\n\nThank you so much for joining our waitlist! I'm currently working hard to finalize the Shopify integration and put the finishing touches on our AI voice agent.\n\nI will personally email you the exact moment we are ready to onboard our first early-access users.\n\nIf you have any questions or feature requests in the meantime, please feel free to reply directly to this email. I read every single one.\n\nTalk soon,\nMuhammed Nur Keser\nFounder, Calora`,
       });
     }
 
