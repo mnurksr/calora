@@ -231,7 +231,7 @@ export default function LandingPage() {
         {/* Nav */}
         <nav className="nav">
           <div className="logo">
-            <img src="/logo.png" alt="Calora Logo" style={{ width: "28px", height: "28px", objectFit: "contain" }} />
+            <img src="/logo.png?v=2" alt="Calora Logo" style={{ width: "28px", height: "28px", objectFit: "contain" }} />
             Calora
           </div>
           <a href="#waitlist" className="nav-btn">Join Waitlist →</a>
@@ -272,7 +272,7 @@ export default function LandingPage() {
                  <div className="np-screen np-idle">
                    <div className="np-idle-content">
                      <div className="np-logo-circle" style={demoUsed ? { background: "rgba(255,255,255,0.02)", boxShadow: "none" } : {}}>
-                       <img src="/logo.png" alt="Calora AI" style={{ width: "55%", height: "55%", objectFit: "contain" }} />
+                       <img src="/logo.png?v=2" alt="Calora AI" style={{ width: "55%", height: "55%", objectFit: "contain" }} />
                      </div>
                      <h3 className="np-idle-title" onDoubleClick={clearDemoLock} style={{ cursor: demoUsed ? "pointer" : "default" }}>
                        {demoUsed ? "Demo Finished ⏱️" : "Calora AI"}
@@ -315,7 +315,7 @@ export default function LandingPage() {
                {demoState === "incoming" && (
                  <div className="np-screen np-incoming" style={{ backgroundImage: 'radial-gradient(circle at 50% 30%, #312e81, #000 70%)' }}>
                    <div className="np-avatar np-avatar-ringing">
-                     <img src="/logo.png" alt="Calora AI" style={{ width: "60%", height: "60%", objectFit: "contain" }} />
+                     <img src="/logo.png?v=2" alt="Calora AI" style={{ width: "60%", height: "60%", objectFit: "contain" }} />
                    </div>
                    <h3 className="np-name">Calora AI Agent</h3>
                    <p className="np-number">Web Audio...</p>
@@ -342,7 +342,7 @@ export default function LandingPage() {
                  <div className="np-screen np-active">
                    <div className="np-call-info" style={{ marginTop: "4.5rem" }}>
                      <div className="np-avatar" style={{ width: "72px", height: "72px", animation: demoState === "connecting" ? "pulseAvatar 2s infinite" : "none" }}>
-                       <img src="/logo.png" alt="Calora AI" style={{ width: "60%", height: "60%", objectFit: "contain" }} />
+                       <img src="/logo.png?v=2" alt="Calora AI" style={{ width: "60%", height: "60%", objectFit: "contain" }} />
                      </div>
                      <h3 className="np-name" style={{ fontSize: "1.5rem" }}>Calora AI Agent</h3>
                      <p className="np-status">{demoState === "connecting" ? "Connecting..." : fmt(callTime)}</p>
