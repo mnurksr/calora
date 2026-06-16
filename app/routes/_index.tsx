@@ -28,7 +28,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     if (process.env.RESEND_API_KEY) {
       const resend = new Resend(process.env.RESEND_API_KEY);
       await resend.emails.send({
-        from: 'Muhammed from Calora <muhammed@mercsync.com>',
+        from: 'Calora <calora@mercsync.com>',
         to: cleanEmail,
         subject: 'You are on the list! 👋',
         text: `Hey there!\n\nI'm Muhammed, the developer behind Calora.\n\nThank you so much for joining our waitlist! I'm currently working hard to finalize the Shopify integration and put the finishing touches on our AI voice agent.\n\nI will personally email you the exact moment we are ready to onboard our first beta testers. We will operate on a pure performance model—you'll only pay a small commission on the carts we successfully recover for you.\n\nIf you have any questions or feature requests in the meantime, please feel free to reply directly to this email.\n\nTalk soon,\nMuhammed Nur Keser\nFounder, Calora`,
@@ -61,6 +61,7 @@ export default function LandingPage() {
 
   // Demo Phone State
   const [demoState, setDemoState] = useState<"idle" | "incoming" | "connecting" | "active">("idle");
+  const [isWaitlistModalOpen, setIsWaitlistModalOpen] = useState(false);
   const [volumeLevel, setVolumeLevel] = useState(0);
   const [callTime, setCallTime] = useState(0);
   const [testError, setTestError] = useState("");
@@ -248,7 +249,7 @@ export default function LandingPage() {
             <img src="/logo.png?v=2" alt="Calora Logo" style={{ width: "28px", height: "28px", objectFit: "contain" }} />
             Calora
           </div>
-          <a href="#waitlist" className="nav-btn">Join Waitlist →</a>
+          <button onClick={() => setIsWaitlistModalOpen(true)} className="nav-btn" style={{cursor:"pointer"}}>Join Waitlist →</button>
         </nav>
 
         {/* Hero Section (2-Column) */}
@@ -487,9 +488,37 @@ export default function LandingPage() {
           <div className="cta-card">
             <h2 className="cta-title">Stop losing revenue to abandoned carts.</h2>
             <p className="cta-desc">Join the waitlist and be among the first Shopify stores to use AI voice recovery.</p>
-            <a href="#waitlist" className="submit-btn" style={{ display: "inline-block", padding: "0.85rem 2.25rem", textDecoration: "none" }}>Join the Waitlist →</a>
+            <button onClick={() => setIsWaitlistModalOpen(true)} className="submit-btn" style={{ display: "inline-block", padding: "0.85rem 2.25rem", textDecoration: "none", border: "none", cursor: "pointer", fontFamily: "inherit" }}>Join the Waitlist →</button>
           </div>
         </section>
+
+        {isWaitlistModalOpen && (
+          <div className="modal-overlay" onClick={() => setIsWaitlistModalOpen(false)}>
+            <div className="modal-content" onClick={e => e.stopPropagation()}>
+              <button className="modal-close" onClick={() => setIsWaitlistModalOpen(false)}>×</button>
+              
+              {actionData?.success ? (
+                <div className="modal-success">
+                  <div className="modal-success-icon">✓</div>
+                  <h3>You're on the list!</h3>
+                  <p>We'll reach out to you as soon as we launch.</p>
+                </div>
+              ) : (
+                <>
+                  <h3 className="modal-title">Join the Waitlist</h3>
+                  <p className="modal-desc">Be the first to access Calora's AI voice recovery when we open our doors.</p>
+                  <Form method="post" className="modal-form">
+                    <input type="email" name="email" placeholder="your@email.com" required className="email-input modal-input" />
+                    <button type="submit" disabled={isSubmitting} className="submit-btn modal-submit">
+                      {isSubmitting ? "Joining..." : "Join Now"}
+                    </button>
+                    {actionData?.error && <div className="error-msg" style={{marginTop:"0.5rem"}}>{actionData.error}</div>}
+                  </Form>
+                </>
+              )}
+            </div>
+          </div>
+        )}
 
         <footer className="footer">© {new Date().getFullYear()} Calora. All rights reserved.</footer>
       </div>
@@ -516,6 +545,22 @@ body{background:#0c0e14;color:#e4e4e7;font-family:'Inter',-apple-system,sans-ser
 .logo{font-size:1.25rem;font-weight:800;letter-spacing:-0.5px;color:#fff;display:flex;align-items:center;gap:0.5rem}
 .nav-btn{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;text-decoration:none;padding:.55rem 1.25rem;border-radius:980px;font-size:.85rem;font-weight:600;transition:all .2s;border:none}
 .nav-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(99,102,241,0.35)}
+
+/* Modal */
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(5px);z-index:999;display:flex;align-items:center;justify-content:center;animation:fadeIn 0.2s ease}
+.modal-content{background:#0c0e14;border:1px solid rgba(255,255,255,0.1);border-radius:1.5rem;padding:3rem 2.5rem;width:90%;max-width:440px;position:relative;box-shadow:0 25px 50px rgba(0,0,0,0.5);animation:slideUpFade 0.3s ease}
+.modal-close{position:absolute;top:1rem;right:1.5rem;background:none;border:none;color:#a1a1aa;font-size:1.5rem;cursor:pointer;transition:color 0.2s}
+.modal-close:hover{color:#fff}
+.modal-title{font-size:1.5rem;font-weight:700;color:#fff;margin-bottom:0.5rem;letter-spacing:-0.5px;text-align:center}
+.modal-desc{color:#a1a1aa;font-size:0.95rem;line-height:1.5;margin-bottom:2rem;text-align:center}
+.modal-form{display:flex;flex-direction:column;gap:1rem}
+.modal-input{width:100%;text-align:left;background:rgba(255,255,255,0.03)}
+.modal-submit{width:100%;justify-content:center}
+.modal-success{text-align:center;animation:fadeIn 0.3s ease}
+.modal-success-icon{width:60px;height:60px;border-radius:50%;background:rgba(34,197,94,0.1);color:#22c55e;display:flex;align-items:center;justify-content:center;font-size:2rem;margin:0 auto 1.5rem}
+.modal-success h3{color:#fff;font-size:1.5rem;margin-bottom:0.5rem}
+.modal-success p{color:#a1a1aa;font-size:0.95rem}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
 
 /* Hero Section (2-Column Grid) */
 .hero-section{position:relative;z-index:10;display:grid;grid-template-columns:1.1fr 0.9fr;gap:4rem;align-items:center;max-width:1200px;margin:0 auto;padding:6.5rem 2rem 2rem;min-height:85vh}
