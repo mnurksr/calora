@@ -4,6 +4,7 @@ import { Form, useActionData, useNavigation } from "react-router";
 import prisma from "../db.server";
 import { useEffect, useState, useRef } from "react";
 import Vapi from "@vapi-ai/web";
+import { Resend } from "resend";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url);
@@ -20,7 +21,20 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     return { error: "Please enter a valid email address." };
   }
   try {
-    await prisma.waitlistEntry.create({ data: { email: email.toLowerCase().trim() } });
+    const cleanEmail = email.toLowerCase().trim();
+    await prisma.waitlistEntry.create({ data: { email: cleanEmail } });
+    
+    // Send automated welcome email from the founder
+    if (process.env.RESEND_API_KEY) {
+      const resend = new Resend(process.env.RESEND_API_KEY);
+      await resend.emails.send({
+        from: 'Muhammed from Calora <muhammed@calora.mercsync.com>',
+        to: cleanEmail,
+        subject: 'You are on the list! 👋',
+        text: `Hey there!\n\nI'm Muhammed, the developer behind Calora.\n\nThank you so much for joining our waitlist! I'm currently working hard to finalize the Shopify integration and put the finishing touches on our AI voice agent.\n\nI will personally email you the exact moment we are ready to onboard our first beta testers. We will operate on a pure performance model—you'll only pay a small commission on the carts we successfully recover for you.\n\nIf you have any questions or feature requests in the meantime, please feel free to reply directly to this email.\n\nTalk soon,\nMuhammed Nur Keser\nFounder, Calora`,
+      });
+    }
+
     return { success: true };
   } catch (error: any) {
     if (error.code === "P2002") return { success: true };
