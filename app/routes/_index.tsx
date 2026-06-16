@@ -458,12 +458,8 @@ export default function LandingPage() {
                 a: "Yes. We use state-of-the-art voice models with sub-500ms latency. Customers often don't even realize they're speaking to an AI. You can test it yourself using the live demo at the top of the page."
               },
               {
-                q: "Can I use my own store's phone number?",
-                a: "Absolutely. You can seamlessly connect your existing Twilio number, or we can provide a dedicated local phone number specifically for your store's outbound calls."
-              },
-              {
-                q: "How do I configure the discount rules?",
-                a: "Inside your Calora dashboard, you can set precise conditions. For example, you can instruct the AI to 'Only call if the cart value is above $50' and 'Offer a one-time 10% discount code' during the call."
+                q: "Which phone number will call my customers?",
+                a: "We provide dedicated, local phone numbers for your store. Once you sign up, you will be able to select a specific phone number from our pool that best matches your store's region."
               },
               {
                 q: "Can I customize what the AI says?",
@@ -471,7 +467,7 @@ export default function LandingPage() {
               },
               {
                 q: "How much does it cost?",
-                a: "We operate on a pure performance model. You only pay a small commission on successful recoveries. There are zero fixed monthly fees. Join the waitlist today to secure your spot."
+                a: "Our pricing and packages will vary depending on the size and volume of your business. Join the waitlist today to be the first to receive our custom pricing plans."
               }
             ].map((faq, i) => (
               <details key={i} className="faq-item">
