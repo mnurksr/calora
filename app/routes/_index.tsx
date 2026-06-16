@@ -28,7 +28,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     if (process.env.RESEND_API_KEY) {
       const resend = new Resend(process.env.RESEND_API_KEY);
       await resend.emails.send({
-        from: 'Muhammed from Calora <muhammed@calora.mercsync.com>',
+        from: 'Muhammed from Calora <muhammed@mercsync.com>',
         to: cleanEmail,
         subject: 'You are on the list! 👋',
         text: `Hey there!\n\nI'm Muhammed, the developer behind Calora.\n\nThank you so much for joining our waitlist! I'm currently working hard to finalize the Shopify integration and put the finishing touches on our AI voice agent.\n\nI will personally email you the exact moment we are ready to onboard our first beta testers. We will operate on a pure performance model—you'll only pay a small commission on the carts we successfully recover for you.\n\nIf you have any questions or feature requests in the meantime, please feel free to reply directly to this email.\n\nTalk soon,\nMuhammed Nur Keser\nFounder, Calora`,
