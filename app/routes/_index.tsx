@@ -252,13 +252,13 @@ export default function LandingPage() {
                   <div className="form-row">
                     <input type="email" name="email" placeholder="your@email.com" required className="email-input" id="waitlist-email" />
                     <button type="submit" disabled={isSubmitting} className="submit-btn" id="waitlist-btn">
-                      {isSubmitting ? "Joining..." : "Get Early Access"}
+                      {isSubmitting ? "Joining..." : "Join the Waitlist"}
                     </button>
                   </div>
                   {actionData?.error && <div className="error-msg" style={{paddingLeft:"1.5rem"}}>{actionData.error}</div>}
                 </Form>
               )}
-              <p className="hint">Free for early adopters · No credit card required</p>
+              <p className="hint">We'll let you know as soon as we launch.</p>
             </div>
           </div>
 
@@ -452,7 +452,7 @@ export default function LandingPage() {
               },
               {
                 q: "How much does it cost?",
-                a: "During our early-access phase, you only pay a small commission on successful recoveries. There are zero fixed monthly fees right now. Join the waitlist today to secure your early-adopter pricing."
+                a: "We operate on a pure performance model. You only pay a small commission on successful recoveries. There are zero fixed monthly fees. Join the waitlist today to secure your spot."
               }
             ].map((faq, i) => (
               <details key={i} className="faq-item">
