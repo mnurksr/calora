@@ -58,7 +58,7 @@ export default function LandingPage() {
   const [volumeLevel, setVolumeLevel] = useState(0);
   const [callTime, setCallTime] = useState(0);
   const [testError, setTestError] = useState("");
-  const [transcripts, setTranscripts] = useState<{id: number, role: string, text: string}[]>([]);
+  const [transcripts, setTranscripts] = useState<{id: number, role: string, text: string, isFinal?: boolean}[]>([]);
   const [demoUsed, setDemoUsed] = useState(false);
   const [userName, setUserName] = useState("");
   
@@ -147,10 +147,32 @@ export default function LandingPage() {
     });
 
     vapiRef.current.on('message', (msg: any) => {
-      // Vapi provides live transcripts
-      if (msg.type === 'transcript' && msg.transcriptType === 'final') {
-        transcriptId.current += 1;
-        setTranscripts(prev => [...prev, { id: transcriptId.current, role: msg.role, text: msg.transcript }]);
+      // Vapi provides live transcripts (both partial word-by-word and final sentences)
+      if (msg.type === 'transcript') {
+        setTranscripts(prev => {
+          const newTranscripts = [...prev];
+          const targetIndex = newTranscripts.length - 1;
+          
+          // If the last bubble is from the same speaker and hasn't been finalized, update it live
+          if (targetIndex >= 0 && newTranscripts[targetIndex].role === msg.role && !newTranscripts[targetIndex].isFinal) {
+            newTranscripts[targetIndex] = {
+              ...newTranscripts[targetIndex],
+              text: msg.transcript,
+              isFinal: msg.transcriptType === 'final'
+            };
+          } else {
+             // Otherwise, create a new bubble for this speaker
+             if (msg.transcript.trim() !== '') {
+               newTranscripts.push({
+                 id: transcriptId.current++,
+                 role: msg.role,
+                 text: msg.transcript,
+                 isFinal: msg.transcriptType === 'final'
+               });
+             }
+          }
+          return newTranscripts;
+        });
       }
     });
 
