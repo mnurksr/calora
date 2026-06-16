@@ -458,12 +458,16 @@ export default function LandingPage() {
                 a: "Yes. We use state-of-the-art voice models with sub-500ms latency. Customers often don't even realize they're speaking to an AI. You can test it yourself using the live demo at the top of the page."
               },
               {
-                q: "Do I need to make any calls myself?",
-                a: "No! It runs 100% on autopilot. You just install the Shopify app, set your discount rules (e.g., offer 15% off if the cart value is over $100), and Calora handles all the calling and convincing."
+                q: "Can I use my own store's phone number?",
+                a: "Absolutely. You can seamlessly connect your existing Twilio number, or we can provide a dedicated local phone number specifically for your store's outbound calls."
               },
               {
-                q: "Is it legal to call abandoned carts?",
-                a: "Absolutely. Calora only initiates calls to customers who have explicitly opted-in to phone marketing during your Shopify checkout flow, keeping you fully compliant with TCPA and local regulations."
+                q: "How do I configure the discount rules?",
+                a: "Inside your Calora dashboard, you can set precise conditions. For example, you can instruct the AI to 'Only call if the cart value is above $50' and 'Offer a one-time 10% discount code' during the call."
+              },
+              {
+                q: "Can I customize what the AI says?",
+                a: "Yes! You have full control over the AI's behavior. You can adjust its tone of voice, write the exact script it follows, and even train it on how to handle specific customer objections."
               },
               {
                 q: "How much does it cost?",
