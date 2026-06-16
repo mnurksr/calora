@@ -28,14 +28,6 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   }
 };
 
-const AvatarIcon = () => (
-  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-    <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
-    <line x1="12" y1="22.08" x2="12" y2="12" />
-  </svg>
-);
-
 const IosStatusBar = () => (
   <div className="ios-status-bar">
     <div className="ios-time">9:41</div>
@@ -238,7 +230,10 @@ export default function LandingPage() {
 
         {/* Nav */}
         <nav className="nav">
-          <a href="/" className="logo">Calora</a>
+          <div className="logo">
+            <img src="/logo.png" alt="Calora Logo" style={{ width: "28px", height: "28px", objectFit: "contain" }} />
+            Calora
+          </div>
           <a href="#waitlist" className="nav-btn">Join Waitlist →</a>
         </nav>
 
@@ -276,8 +271,8 @@ export default function LandingPage() {
                {demoState === "idle" && (
                  <div className="np-screen np-idle">
                    <div className="np-idle-content">
-                     <div className="np-logo-circle" style={demoUsed ? { background: "rgba(255,255,255,0.05)", boxShadow: "none" } : {}}>
-                       <AvatarIcon />
+                     <div className="np-logo-circle" style={demoUsed ? { background: "rgba(255,255,255,0.02)", boxShadow: "none" } : {}}>
+                       <img src="/logo.png" alt="Calora AI" style={{ width: "55%", height: "55%", objectFit: "contain" }} />
                      </div>
                      <h3 className="np-idle-title" onDoubleClick={clearDemoLock} style={{ cursor: demoUsed ? "pointer" : "default" }}>
                        {demoUsed ? "Demo Finished ⏱️" : "Calora AI"}
@@ -320,7 +315,7 @@ export default function LandingPage() {
                {demoState === "incoming" && (
                  <div className="np-screen np-incoming" style={{ backgroundImage: 'radial-gradient(circle at 50% 30%, #312e81, #000 70%)' }}>
                    <div className="np-avatar np-avatar-ringing">
-                     <AvatarIcon />
+                     <img src="/logo.png" alt="Calora AI" style={{ width: "60%", height: "60%", objectFit: "contain" }} />
                    </div>
                    <h3 className="np-name">Calora AI Agent</h3>
                    <p className="np-number">Web Audio...</p>
@@ -347,7 +342,7 @@ export default function LandingPage() {
                  <div className="np-screen np-active">
                    <div className="np-call-info" style={{ marginTop: "4.5rem" }}>
                      <div className="np-avatar" style={{ width: "72px", height: "72px", animation: demoState === "connecting" ? "pulseAvatar 2s infinite" : "none" }}>
-                       <AvatarIcon />
+                       <img src="/logo.png" alt="Calora AI" style={{ width: "60%", height: "60%", objectFit: "contain" }} />
                      </div>
                      <h3 className="np-name" style={{ fontSize: "1.5rem" }}>Calora AI Agent</h3>
                      <p className="np-status">{demoState === "connecting" ? "Connecting..." : fmt(callTime)}</p>
@@ -504,7 +499,7 @@ body{background:#0c0e14;color:#e4e4e7;font-family:'Inter',-apple-system,sans-ser
 
 /* Nav */
 .nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:1.15rem 3rem;background:rgba(12,14,20,0.7);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.04)}
-.logo{font-size:1.4rem;font-weight:800;color:#fff;text-decoration:none;letter-spacing:-0.5px}
+.logo{font-size:1.25rem;font-weight:800;letter-spacing:-0.5px;color:#fff;display:flex;align-items:center;gap:0.5rem}
 .nav-btn{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;text-decoration:none;padding:.55rem 1.25rem;border-radius:980px;font-size:.85rem;font-weight:600;transition:all .2s;border:none}
 .nav-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(99,102,241,0.35)}
 
@@ -543,7 +538,7 @@ body{background:#0c0e14;color:#e4e4e7;font-family:'Inter',-apple-system,sans-ser
 /* State 1: Idle */
 .np-idle{background:linear-gradient(180deg,#14161e 0%,#0c0e14 100%);justify-content:center;align-items:center;text-align:center;padding-top:0}
 .np-idle-content{display:flex;flex-direction:column;align-items:center;padding:2rem}
-.np-logo-circle{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#a78bfa);display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem;box-shadow:0 10px 30px rgba(99,102,241,0.3)}
+.np-logo-circle{width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem;box-shadow:0 10px 30px rgba(0,0,0,0.5)}
 .np-idle-title{font-size:1.5rem;color:#fff;margin-bottom:0.5rem;font-weight:600;letter-spacing:-0.5px}
 .np-idle-sub{font-size:0.95rem;color:#a1a1aa;margin-bottom:3rem;line-height:1.5}
 .np-name-input{width:100%;max-width:240px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:980px;padding:0.9rem 1.5rem;color:#fff;font-size:0.95rem;font-family:inherit;outline:none;text-align:center;transition:all 0.3s;backdrop-filter:blur(10px);letter-spacing:0.5px}
@@ -559,9 +554,9 @@ body{background:#0c0e14;color:#e4e4e7;font-family:'Inter',-apple-system,sans-ser
 
 /* State 2: Incoming */
 .np-incoming{align-items:center;padding-top:5rem}
-.np-avatar{width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,#6366f1,#a78bfa);display:flex;align-items:center;justify-content:center;margin-bottom:1rem;box-shadow:0 0 30px rgba(99,102,241,0.4)}
+.np-avatar{width:90px;height:90px;border-radius:50%;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;margin-bottom:1rem;box-shadow:0 0 30px rgba(0,0,0,0.5)}
 .np-avatar-ringing{animation:ringPulse 2s infinite}
-@keyframes ringPulse{0%{box-shadow:0 0 0 0 rgba(99,102,241,0.6)}70%{box-shadow:0 0 0 25px rgba(99,102,241,0)}100%{box-shadow:0 0 0 0 rgba(99,102,241,0)}}
+@keyframes ringPulse{0%{box-shadow:0 0 0 0 rgba(255,255,255,0.2)}70%{box-shadow:0 0 0 25px rgba(255,255,255,0)}100%{box-shadow:0 0 0 0 rgba(255,255,255,0)}}
 .np-name{font-size:2rem;font-weight:400;color:#fff;margin-bottom:0.25rem;letter-spacing:-0.5px}
 .np-number{font-size:1rem;color:#a1a1aa}
 .np-incoming-actions{position:absolute;bottom:4rem;left:0;right:0;display:flex;justify-content:space-around;padding:0 2.5rem}
@@ -576,7 +571,7 @@ body{background:#0c0e14;color:#e4e4e7;font-family:'Inter',-apple-system,sans-ser
 /* State 3: Active Call */
 .np-active{background:linear-gradient(180deg,#1a1c23 0%,#000 100%);display:flex;flex-direction:column;padding-top:3rem}
 .np-call-info{display:flex;flex-direction:column;align-items:center}
-@keyframes pulseAvatar{0%{box-shadow:0 0 0 0 rgba(99,102,241,0.4)}70%{box-shadow:0 0 0 20px rgba(99,102,241,0)}100%{box-shadow:0 0 0 0 rgba(99,102,241,0)}}
+@keyframes pulseAvatar{0%{box-shadow:0 0 0 0 rgba(255,255,255,0.1)}70%{box-shadow:0 0 0 20px rgba(255,255,255,0)}100%{box-shadow:0 0 0 0 rgba(255,255,255,0)}}
 .np-status{font-size:1rem;color:#a1a1aa;margin-top:0.5rem}
 
 .np-captions{flex:1;display:flex;flex-direction:column;padding:1.5rem;gap:0.75rem;overflow-y:auto;scroll-behavior:smooth}

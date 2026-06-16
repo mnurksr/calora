@@ -1,5 +1,9 @@
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
+import type { LinksFunction } from "react-router";
 
+export const links: LinksFunction = () => [
+  { rel: "icon", href: "/favicon.png", type: "image/png" },
+];
 export default function App() {
   return (
     <html lang="en">
